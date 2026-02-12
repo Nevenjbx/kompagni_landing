@@ -1,870 +1,1558 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kompagni</title>
+    <title>Kompagni — Réservation de professionnels du bien-être animal</title>
+    <meta name="description"
+        content="Kompagni connecte propriétaires d'animaux et professionnels du bien-être animal. Trouvez et réservez toiletteurs, vétérinaires et éducateurs en quelques clics.">
+    <meta name="keywords"
+        content="bien-être animal, toiletteur, vétérinaire, éducateur canin, réservation, animaux, Kompagni">
+    <meta name="author" content="Kompagni">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kompagni.fr">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kompagni — Prendre soin, simplement.">
+    <meta property="og:description"
+        content="La plateforme qui connecte propriétaires d'animaux et professionnels du bien-être animal. Trouvez, comparez et réservez en toute confiance.">
+    <meta property="og:url" content="https://kompagni.fr">
+    <meta property="og:site_name" content="Kompagni">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kompagni — Prendre soin, simplement.">
+    <meta name="twitter:description"
+        content="La plateforme qui connecte propriétaires d'animaux et professionnels du bien-être animal.">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Kompagni",
+        "url": "https://kompagni.fr",
+        "description": "Plateforme de réservation de professionnels du bien-être animal",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "contact@kompagni.fr",
+            "contactType": "customer service"
+        }
+    }
+    </script>
+
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <link rel="icon" type="image/ico" sizes="96x96" href="favicon.ico">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="icon" type="image/ico" sizes="96x96" href="favicon.ico">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
-        * {
+        /* ═══════════════════════════════════════════════
+           RESET & DESIGN TOKENS
+           ═══════════════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --dark-green: #013928;
-            --bright-green: #9FE880;
-            --white: #FFFFFF;
-            --light-bg: #F8FBF6;
-            --border-radius: 40px; /* Variable pour contrôler tous les arrondis */
+            --green-950: #012a1d;
+            --green-900: #013928;
+            --green-800: #025a3f;
+            --green-700: #037a56;
+            --green-400: #5dd9a0;
+            --green-300: #9FE880;
+            --green-200: #c2f0a8;
+            --green-100: #e8f9dd;
+            --green-50: #f3fcee;
+
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-800: #262626;
+            --gray-900: #171717;
+
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px rgba(1, 57, 40, 0.08);
+            --glass-blur: blur(20px);
+
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-full: 9999px;
+
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            --max-width: 1200px;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--dark-green);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--green-900);
             line-height: 1.6;
             overflow-x: hidden;
-            cursor: crosshair;
-        }
-        h1, h2, h3, h4, h5, h6, .logo {
-                font-family: 'Space Grotesk', sans-serif;
+            background: var(--green-50);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Navigation */
-        nav {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        /* ═══════════════════════════════════════════════
+           ANIMATED BACKGROUND MESH
+           ═══════════════════════════════════════════════ */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-mesh .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-mesh .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--green-300);
+            top: -200px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .bg-mesh .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--green-400);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        .bg-mesh .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--green-200);
+            top: 40%;
+            left: 30%;
+            animation-delay: -14s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -50px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(40px, 20px) scale(1.02);
+            }
+        }
+
+        /* ═══════════════════════════════════════════════
+           NAVIGATION
+           ═══════════════════════════════════════════════ */
+        header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--bright-green); /* Vert clair par défaut */
-            padding: 1.5rem 5%;
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease; /* Animation smooth */
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-full);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
         }
 
-        nav.scrolled {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(40px);
-            box-shadow: 0 2px 20px rgba(1, 57, 40, 0.05);
+        header.scrolled .nav-container {
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 40px rgba(1, 57, 40, 0.12);
         }
+
         .logo {
-            font-size: 1.8rem;
-            font-weight: 800; /* Déjà à 800, passe à 900 (maximum) */
-            color: var(--dark-green);
-            letter-spacing: -1px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--green-900);
+            text-decoration: none;
+            letter-spacing: -0.03em;
+            transition: var(--transition-fast);
+        }
+
+        .logo:hover {
+            color: var(--green-700);
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 0.5rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: var(--dark-green);
+            color: var(--green-900);
             text-decoration: none;
-            font-weight: 600;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--dark-green);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            transition: var(--transition-fast);
         }
 
         .nav-links a:hover {
-            color: var(--dark-green);
+            background: rgba(1, 57, 40, 0.06);
         }
 
-        /* Hero Section - Illustration à GAUCHE, texte à DROITE */
+        .nav-cta {
+            background: var(--green-900) !important;
+            color: var(--white) !important;
+            padding: 0.5rem 1.25rem !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--green-800) !important;
+            transform: scale(1.02);
+        }
+
+        /* Mobile menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--green-900);
+            margin: 5px auto;
+            border-radius: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ═══════════════════════════════════════════════
+           HERO
+           ═══════════════════════════════════════════════ */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 4rem 5%;
-            background: var(--bright-green);
+            padding: 8rem 1.5rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                    var(--green-300) 0%,
+                    var(--green-100) 50%,
+                    var(--green-50) 100%);
+            z-index: -1;
         }
 
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            max-width: 1400px;
+            max-width: var(--max-width);
             margin: 0 auto;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
         }
 
         .hero-text {
-            order: 2;
-        }
-
-        .hero-text h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            line-height: 1;
-            margin-bottom: 2rem;
-            color: var(--dark-green);
-            letter-spacing: -3px;
-        }
-
-        .hero-text p {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--dark-green);
-            opacity: 0.8;
-            font-weight: 400;
-            line-height: 1.5;
-        }
-
-        .hero-illustration {
-            width: 100%;
-            height: 550px;
-            background: #fdf9f5;
-            border-radius: 100px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 30px 80px rgba(1, 57, 40, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-illustration img {
-            width: 100%;
-            height: auto;
-            max-height: 100%;
-            object-fit: cover; /* Remplit tout l'espace */            
-            z-index: 2;
-            position: relative;
-        }
-        .shape-1 {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: morph 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(5deg); }
-        }
-
-        @keyframes morph {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(-50%, -50%) rotate(0deg); }
-            50% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; transform: translate(-50%, -50%) rotate(180deg); }
-        }
-
-        /* Early Access Section - Formulaire à GAUCHE, texte à DROITE */
-        .early-access {
-            padding: 8rem 5%;
-            background: var(--white);
-        }
-
-        .early-access-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-        }
-
-        .early-access-text {
             order: 1;
         }
 
-        .early-access-text h2 {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            color: var(--dark-green);
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        .early-access-text .subtitle {
-            font-size: 1.3rem;
-            color: var(--dark-green);
-            opacity: 0.7;
-            font-weight: 400;
-        }
-
-        .form-container {
-            order: 2;
-            background: var(--light-bg);
-            padding: 4rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 20px 60px rgba(1, 57, 40, 0.08);
-        }
-
-        .form-info {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: calc(var(--border-radius) / 2);
-            margin-bottom: 2.5rem;
-            border-left: 4px solid var(--dark-green);
-        }
-
-        .form-info p {
-            color: var(--dark-green);
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-green);
-            font-size: 1rem;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 1.2rem;
-            border: 2px solid rgba(1, 57, 40, 0.1);
-            border-radius: calc(var(--border-radius) / 2.5);
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: var(--white);
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
             font-weight: 500;
+            color: var(--green-800);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--dark-green);
-            box-shadow: 0 0 0 4px rgba(1, 57, 40, 0.1);
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green-400);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            color: var(--green-900);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--green-700), var(--green-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--green-800);
+            opacity: 0.8;
+            max-width: 500px;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
         }
 
         .btn-primary {
-            width: 100%;
-            padding: 1.4rem;
-            background: var(--bright-green);
-            color: var(--dark-green);
-            border: none;
-            border-radius: calc(var(--border-radius) / 2.5);
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
+            background: var(--green-900);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(1, 57, 40, 0.3);
         }
 
         .btn-primary:hover {
-            background: #024d37;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(1, 57, 40, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(1, 57, 40, 0.4);
+            background: var(--green-800);
         }
 
-
-
-        /* How it Works Section */
-        .how-it-works {
-            padding: 8rem 5%;
-            background: var(--light-bg);
+        .btn-secondary {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            color: var(--green-900);
         }
 
-        .how-it-works-header {
-            max-width: 1400px;
-            margin: 0 auto 5rem;
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(1, 57, 40, 0.1);
         }
 
-        .section-title {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            color: var(--dark-green);
-            letter-spacing: -2px;
+        .hero-visual {
+            order: 2;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
-        .section-subtitle {
-            font-size: 1.3rem;
-            color: var(--dark-green);
-            opacity: 0.7;
-            font-weight: 400;
+        .hero-image-wrapper {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow:
+                0 20px 60px rgba(1, 57, 40, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
         }
 
-        .journey-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            gap: 3rem;
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            pointer-events: none;
         }
 
-        .journey-path {
-            flex: 1;
-            background: var(--white);
-            padding: 3.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 15px 50px rgba(1, 57, 40, 0.08);
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
         }
 
-        .journey-path h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 2.5rem;
-            color: var(--dark-green);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            letter-spacing: -1px;
-        }
-
-        .user-badge {
-            width: 50px;
-            height: 50px;
-            background: var(--bright-green);
-            border-radius: calc(var(--border-radius) / 3);
+        /* Floating glass cards around hero image */
+        .hero-float-card {
+            position: absolute;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            box-shadow: var(--glass-shadow);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--green-900);
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            gap: 0.5rem;
+            animation: float 6s ease-in-out infinite;
+            z-index: 2;
         }
 
-        .step {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s forwards;
+        .hero-float-card:nth-child(2) {
+            top: 15%;
+            right: -20px;
+            animation-delay: -1s;
         }
 
-        .step:nth-child(1) { animation-delay: 0.1s; }
-        .step:nth-child(2) { animation-delay: 0.2s; }
-        .step:nth-child(3) { animation-delay: 0.3s; }
-        .step:nth-child(4) { animation-delay: 0.4s; }
+        .hero-float-card:nth-child(3) {
+            bottom: 20%;
+            left: -20px;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
 
         @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .step-number {
-            width: 55px;
-            height: 55px;
-            background: var(--bright-green);
-            border-radius: calc(var(--border-radius) / 3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--dark-green);
-            flex-shrink: 0;
+        /* ═══════════════════════════════════════════════
+           SECTION DEFAULTS
+           ═══════════════════════════════════════════════ */
+        section {
+            padding: 7rem 1.5rem;
         }
 
-        .step-content h4 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--dark-green);
-        }
-
-        .step-content p {
-            color: var(--dark-green);
-            opacity: 0.7;
-            font-size: 1rem;
-        }
-
-        /* Benefits Section - Texte à GAUCHE, cards à DROITE */
-        .benefits {
-            padding: 8rem 5%;
-            background: var(--white);
-        }
-
-        .benefits-header {
-            max-width: 1400px;
+        .section-header {
+            text-align: center;
+            max-width: 640px;
             margin: 0 auto 4rem;
         }
 
-        .benefits-grid {
-            max-width: 1400px;
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.85rem;
+            background: var(--green-100);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--green-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--green-900);
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════════════
+           HOW IT WORKS — TABS + STEPS
+           ═══════════════════════════════════════════════ */
+        .how-it-works {
+            background: var(--white);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-full);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .tab-btn.active {
+            background: var(--green-900);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(1, 57, 40, 0.25);
+        }
+
+        .tab-btn:not(.active):hover {
+            background: var(--gray-100);
+            color: var(--green-900);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .steps-grid {
+            max-width: var(--max-width);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
         }
 
-        .benefit-category h3 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 2.5rem;
-            color: var(--dark-green);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            letter-spacing: -1px;
+        .step-card {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            transition: all var(--transition-smooth);
+            text-align: center;
         }
 
-        .benefit-card {
-            background: var(--light-bg);
-            padding: 2.5rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(1, 57, 40, 0.1);
+            border-color: var(--green-300);
         }
 
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--dark-green);
-            box-shadow: 0 15px 40px rgba(1, 57, 40, 0.1);
-        }
-
-        .benefit-icon {
-            width: 65px;
-            height: 65px;
-            background: var(--bright-green);
-            border-radius: calc(var(--border-radius) / 2.5);
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--green-300), var(--green-400));
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.2rem;
-            font-size: 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--green-900);
+            margin: 0 auto 1.25rem;
         }
 
-        .benefit-card h4 {
-            font-size: 1.4rem;
+        .step-card h4 {
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--dark-green);
+            margin-bottom: 0.75rem;
+            color: var(--green-900);
         }
 
-        .benefit-card p {
-            color: var(--dark-green);
-            opacity: 0.7;
-            font-size: 1rem;
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
             line-height: 1.6;
         }
 
-        /* Contact Section */
-        .contact {
-            padding: 8rem 5%;
-            background: var(--dark-green);
+        /* Connector lines between steps */
+        .step-card:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -0.75rem;
+            width: calc(1.5rem);
+            height: 2px;
+            background: linear-gradient(90deg, var(--green-300), transparent);
+            transform: translateY(-50%);
+        }
+
+        /* ═══════════════════════════════════════════════
+           BENEFITS — GLASS CARDS
+           ═══════════════════════════════════════════════ */
+        .benefits {
+            background: var(--green-50);
+        }
+
+        .benefits-grid {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .benefit-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green-300), var(--green-400));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(1, 57, 40, 0.1);
+            border-color: rgba(159, 232, 128, 0.4);
+        }
+
+        .benefit-card:hover::before {
+            opacity: 1;
+        }
+
+        .benefit-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--green-100), var(--green-200));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            transition: var(--transition-smooth);
+            color: var(--green-700);
+        }
+
+        .benefit-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(159, 232, 128, 0.3);
+        }
+
+        .benefit-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--green-900);
+        }
+
+        .benefit-card p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════════
+           EARLY ACCESS CTA
+           ═══════════════════════════════════════════════ */
+        .early-access {
+            background: var(--green-900);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .early-access::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(159, 232, 128, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        .early-access::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(93, 217, 160, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .early-access .section-label {
+            background: rgba(159, 232, 128, 0.15);
+            color: var(--green-300);
+        }
+
+        .early-access .section-header h2 {
             color: var(--white);
+        }
+
+        .early-access .section-header p {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-wrapper {
+            max-width: 520px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+        }
+
+        .form-info {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--green-300);
+        }
+
+        .form-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .form-info strong {
+            color: var(--green-300);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--white);
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='rgba(255,255,255,0.5)' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+
+        .form-group select option {
+            background: var(--green-950);
+            color: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--green-300);
+            box-shadow: 0 0 0 3px rgba(159, 232, 128, 0.15);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.95rem;
+            background: linear-gradient(135deg, var(--green-300), var(--green-400));
+            color: var(--green-900);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            margin-top: 0.5rem;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(159, 232, 128, 0.35);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Success state */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .form-success.show {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .form-success .check-circle {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--green-300), var(--green-400));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            color: var(--green-900);
+        }
+
+        .form-success .check-circle svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .form-success h3 {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-success p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        /* ═══════════════════════════════════════════════
+           CONTACT
+           ═══════════════════════════════════════════════ */
+        .contact {
+            background: var(--white);
         }
 
         .contact-content {
-            max-width: 1400px;
+            max-width: var(--max-width);
             margin: 0 auto;
-        }
-
-        .contact h2 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-        }
-
-        .contact p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 2.5rem;
+            text-align: center;
         }
 
         .contact-email {
-            font-size: 1.8rem;
-            color: var(--bright-green);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            color: var(--green-700);
             text-decoration: none;
             font-weight: 700;
-            transition: all 0.3s;
-            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--green-100);
+            border-radius: var(--radius-full);
+            transition: all var(--transition-smooth);
+            margin-top: 0.5rem;
         }
 
         .contact-email:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(159, 232, 112, 0.5);
+            background: var(--green-200);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(1, 57, 40, 0.1);
         }
 
-        /* Footer */
+        /* ═══════════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════════ */
         footer {
-            padding: 2rem 5%;
-            background: var(--dark-green);
-            color: var(--white);
-            border-top: 1px solid rgba(159, 232, 112, 0.2);
-            opacity: 0.8;
+            background: var(--green-950);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
         }
 
         .footer-content {
-            max-width: 1400px;
+            max-width: var(--max-width);
             margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .hero-content,
-            .early-access-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-                text-align: center;
+        .footer-content p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .footer-content a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-content a:hover {
+            color: var(--green-300);
+        }
+
+        /* ═══════════════════════════════════════════════
+           SCROLL REVEAL
+           ═══════════════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        .reveal-delay-5 {
+            transition-delay: 0.5s;
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .hero-text,
-            .early-access-text,
-            .form-container {
-                order: unset;
-            }
-
-            .journey-path .step-header::before {
-                height: 20px; /* Ancien: 50px */
-                width: 20px; /* Ancien: 50px */
-                font-size: 1.1rem; /* Ancien: 1.5rem */
-                line-height: 30px; /* Ancien: 50px (pour centrer le texte) */
-            }
-
-            .benefit-card .benefit-icon {
-                height: 40px; /* La boîte est à 40px */
-                width: 40px; /* Ancien: 70px */
-                font-size: 1.3rem; /* Ancien: 2.5rem */
-                line-height: 40px; /* Ancien: 70px (pour centrer l'icône) */
-                margin-bottom: 0.5rem; /* Réduit l'espace en dessous */
-            }
-
-
-            .benefit-category h3 {
-                font-size: 1.8rem; /* Ancien: 2.2rem. Nouvelle taille réduite. */
-                margin-bottom: 2rem; /* Vous pouvez aussi réduire la marge si besoin */
-            }
-
-            /* Masque les badges 🐾 et 💼 dans la section "Comment ça marche" (Fonctionne déjà) */
-            .journey-path h3 .user-badge {
+            .step-card::after {
                 display: none;
-            }
-
-            /* NOUVELLE RÈGLE : Cible et masque l'icône (maintenant encadrée par .category-icon) */
-            .benefit-category h3 .category-icon {
-                display: none;
-            }
-
-            /* Laissez ces règles existantes si vous souhaitez cacher les autres icônes (⚡, 🛡️, etc.) */
-            .benefit-category h3 .user-badge,
-            .benefit-category h3 .benefit-icon {
-                display: none;
-            }
-
-            .hero-text h1 {
-                font-size: 3.5rem;
-            }
-
-            .hero-illustration {
-                height: 300px; /* Ancien: 400px. Nouvelle hauteur plus petite pour économiser de l'espace. */
-            }
-
-            .early-access-text h2,
-            .section-title {
-                font-size: 3rem;
-            }
-
-
-            .form-info p {
-                text-align: left;
-            }
-
-            .journey-container {
-                flex-direction: column;
             }
 
             .benefits-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0.75rem 1rem;
             }
 
-            .how-it-works-header,
-            .benefits-header,
-            .contact-content,
-            .footer-content {
-                text-align: center;
+            .nav-container {
+                padding: 0.6rem 1rem;
             }
 
             .nav-links {
                 display: none;
+                position: absolute;
+                top: calc(100% + 0.5rem);
+                left: 1rem;
+                right: 1rem;
+                background: var(--glass-bg);
+                backdrop-filter: var(--glass-blur);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--radius-lg);
+                box-shadow: 0 16px 48px rgba(1, 57, 40, 0.15);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.25rem;
+            }
+
+            .nav-links.open {
+                display: flex;
+                animation: fadeInUp 0.3s ease-out;
+            }
+
+            .nav-links a {
+                padding: 0.75rem 1rem;
+                border-radius: var(--radius-sm);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 4rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                text-align: center;
+            }
+
+            .hero-text {
+                order: 2;
+            }
+
+            .hero-visual {
+                order: 1;
+            }
+
+            .hero-text p {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero-float-card {
+                display: none;
+            }
+
+            .hero-image-wrapper img {
+                height: 280px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 5rem 1.5rem;
+            }
+
+            .form-card {
+                padding: 1.75rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 0.75rem;
             }
         }
 
-        @media (max-width: 600px) {
-            /* Réduction des titres très grands */
+        @media (max-width: 480px) {
             .hero-text h1 {
-                font-size: 2.2rem; /* Encore plus petit pour les petits téléphones */
-                letter-spacing: -1px;
-                margin-bottom: 1rem;
-            }
-
-            /* Réduction des sous-titres et des titres de section */
-            .hero-text p, 
-            .early-access-text .subtitle,
-            .section-subtitle {
-                font-size: 1rem !important; /* On force la réduction des paragraphes */
-                line-height: 1.4;
-            }
-
-            .early-access-text h2,
-            .section-title {
-                font-size: 2rem; /* Réduction des H2 */
-                margin-bottom: 1rem;
-            }
-
-            .contact h2 {
                 font-size: 2rem;
             }
-            
-            .form-container {
-                padding: 1.5rem; /* Moins de padding */
+
+            .steps-grid {
+                grid-template-columns: 1fr;
             }
-            
-            /* Ajustement des chemins d'étape */
-            .journey-path h3 {
-                font-size: 1.5rem;
+
+            .tabs {
+                flex-wrap: wrap;
             }
-            .step-content h4 {
-                font-size: 1.1rem;
+
+            .tab-btn {
+                font-size: 0.85rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="cursor-follower"></div>
+    <!-- Animated background mesh -->
+    <div class="bg-mesh" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
     <!-- Navigation -->
-    <nav>
-        <div class="logo">Kompagni</div>
-        <ul class="nav-links">
-            <li><a href="#inscription">Inscription</a></li>
-            <li><a href="#comment">Comment ça marche</a></li>
-            <li><a href="#benefices">Bénéfices</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <header id="navbar">
+        <nav class="nav-container" aria-label="Navigation principale">
+            <a href="#" class="logo">Kompagni</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#comment">Comment ça marche</a></li>
+                <li><a href="#benefices">Bénéfices</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#inscription" class="nav-cta">Rejoindre</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu de navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-illustration">
-                <img src="header_pic.png" alt="Illustration Kompagni">
-            </div>
-            <div class="hero-text">
-                <h1>Prendre soin, simplement.</h1>
-                <p>La plateforme qui connecte propriétaires d'animaux et professionnels du bien-être animal. En toute confiance.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Early Access Section -->
-    <section class="early-access" id="inscription">
-        <div class="early-access-content">
-            
-            <div class="early-access-text">
-                <h2>Rejoignez l'aventure dès maintenant</h2>
-                <p class="subtitle">Inscrivez-vous pour être parmi les premiers informés du lancement</p>
-            </div>
-
-            <div class="form-container">
-                <div class="form-info">
-                    <p>💡 <strong>Pourquoi ces infos ?</strong> Vos données nous aident à mesurer l'intérêt pour le projet et à rester proche de vous. On construit Kompagni ensemble.</p>
-                </div>
-                
-                <form id="earlyAccessForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="votre@email.com" required>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        Bientôt disponible
                     </div>
-                    <div class="form-group">
-                        <label for="status">Vous êtes</label>
-                        <select id="status" required>
-                            <option value="">Sélectionnez votre profil</option>
-                            <option value="particulier">🐾 Propriétaire d'animal</option>
-                            <option value="professionnel">💼 Professionnel animalier</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="city">Ville</label>
-                        <input type="text" id="city" placeholder="Poitiers, Paris, Lyon..." required>
-                    </div>
-                    <button type="submit" class="btn-primary">Être informé du lancement</button>
-                </form>
-            </div>
-            
-        </div>
-    </section>
-
-    <!-- How it Works Section -->
-    <section class="how-it-works" id="comment">
-        <div class="how-it-works-header">
-            <h2 class="section-title">Comment ça marche ?</h2>
-            <p class="section-subtitle">Un parcours fluide pour tous</p>
-        </div>
-        <div class="journey-container">
-            <div class="journey-path">
-                <h3><span class="user-badge">🐾</span> Pour les propriétaires</h3>
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>Recherchez un professionnel</h4>
-                        <p>Trouvez le toiletteur, vétérinaire ou éducateur près de chez vous grâce à notre moteur de recherche intelligent.</p>
+                    <h1>Prendre soin,<br><span class="highlight">simplement.</span></h1>
+                    <p>La plateforme qui connecte propriétaires d'animaux et professionnels du bien-être animal. En
+                        toute confiance.</p>
+                    <div class="hero-actions">
+                        <a href="#inscription" class="btn btn-primary">Rejoindre l'aventure →</a>
+                        <a href="#comment" class="btn btn-secondary">Découvrir</a>
                     </div>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Consultez les profils et avis</h4>
-                        <p>Comparez les services, tarifs et lisez les avis vérifiés d'autres propriétaires.</p>
+                <div class="hero-visual">
+                    <div class="hero-image-wrapper">
+                        <img src="header_pic.png"
+                            alt="Animal heureux avec son propriétaire, illustrant la mission de Kompagni"
+                            loading="eager" width="600" height="450">
+                        <div class="hero-float-card">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                                <path d="M8 12l2.5 2.5L16 9" />
+                            </svg>
+                            Réservation instantanée
+                        </div>
+                        <div class="hero-float-card">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                            Avis vérifiés
+                        </div>
                     </div>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Réservez en un clic</h4>
-                        <p>Choisissez le créneau qui vous convient et confirmez votre rendez-vous instantanément.</p>
+            </div>
+        </section>
+
+        <!-- How it Works -->
+        <section class="how-it-works" id="comment">
+            <div class="section-header reveal">
+                <span class="section-label">Fonctionnement</span>
+                <h2>Comment ça marche ?</h2>
+                <p>Un parcours simple et fluide, que vous soyez propriétaire ou professionnel.</p>
+            </div>
+
+            <div class="tabs reveal">
+                <button class="tab-btn active" data-tab="owners"><svg width="16" height="16" viewBox="0 0 24 24"
+                        fill="currentColor" style="vertical-align:-2px;margin-right:4px">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12c0 3.13 1.44 5.92 3.69 7.74.04-.66.28-1.35.79-1.86.73-.73 1.72-1.13 2.76-1.13.36 0 .73.06 1.08.17A3.99 3.99 0 0 0 12 18c.55 0 1.08-.11 1.56-.33.01 0 .02 0 .03-.01.37-.17.7-.41.98-.71.14-.14.27-.3.38-.47A3.94 3.94 0 0 0 16 18c1.1 0 2-.9 2-2 0-.55-.22-1.05-.59-1.41C18.95 13.27 20 11.77 20 10c0-4.42-3.58-8-8-8zm-4 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3-5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 1a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm1 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />
+                    </svg> Propriétaires</button>
+                <button class="tab-btn" data-tab="pros"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        style="vertical-align:-2px;margin-right:4px">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg> Professionnels</button>
+            </div>
+
+            <div class="tab-content active" id="tab-owners">
+                <div class="steps-grid">
+                    <div class="step-card reveal reveal-delay-1">
+                        <div class="step-number">1</div>
+                        <h4>Recherchez</h4>
+                        <p>Trouvez le toiletteur, vétérinaire ou éducateur près de chez vous grâce à notre recherche
+                            intelligente.</p>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Profitez sereinement</h4>
+                    <div class="step-card reveal reveal-delay-2">
+                        <div class="step-number">2</div>
+                        <h4>Comparez</h4>
+                        <p>Consultez les profils détaillés, les tarifs et les avis vérifiés d'autres propriétaires.</p>
+                    </div>
+                    <div class="step-card reveal reveal-delay-3">
+                        <div class="step-number">3</div>
+                        <h4>Réservez</h4>
+                        <p>Choisissez le créneau qui vous convient et confirmez instantanément.</p>
+                    </div>
+                    <div class="step-card reveal reveal-delay-4">
+                        <div class="step-number">4</div>
+                        <h4>Profitez</h4>
                         <p>Recevez des rappels automatiques et prenez soin de votre compagnon l'esprit tranquille.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="journey-path">
-                <h3><span class="user-badge">💼</span> Pour les professionnels</h3>
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
+            <div class="tab-content" id="tab-pros">
+                <div class="steps-grid">
+                    <div class="step-card reveal reveal-delay-1">
+                        <div class="step-number">1</div>
                         <h4>Créez votre profil</h4>
-                        <p>Présentez votre activité, vos services et mettez en valeur votre expertise en quelques clics.</p>
+                        <p>Présentez votre activité, vos services et mettez en valeur votre expertise en quelques clics.
+                        </p>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Gérez vos disponibilités</h4>
-                        <p>Configurez votre agenda et vos créneaux directement depuis votre tableau de bord intuitif.</p>
+                    <div class="step-card reveal reveal-delay-2">
+                        <div class="step-number">2</div>
+                        <h4>Gérez vos dispos</h4>
+                        <p>Configurez votre agenda et vos créneaux depuis votre tableau de bord intuitif.</p>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Recevez des réservations</h4>
+                    <div class="step-card reveal reveal-delay-3">
+                        <div class="step-number">3</div>
+                        <h4>Recevez des rdv</h4>
                         <p>Les clients réservent en ligne, vous recevez les notifications instantanément.</p>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Développez votre activité</h4>
+                    <div class="step-card reveal reveal-delay-4">
+                        <div class="step-number">4</div>
+                        <h4>Développez-vous</h4>
                         <p>Gagnez en visibilité, fidélisez vos clients et concentrez-vous sur votre métier.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" id="benefices">
-        <div class="benefits-header">
-            <h2 class="section-title">Pourquoi choisir Kompagni ?</h2>
-            <p class="section-subtitle">Des bénéfices concrets pour tous</p>
-        </div>
-        <div class="benefits-grid">
-            <div class="benefit-category">
-                <h3><span class="category-icon">🐾</span> Pour les propriétaires</h3>
-                
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚡</div>
+        <!-- Benefits -->
+        <section class="benefits" id="benefices">
+            <div class="section-header reveal">
+                <span class="section-label">Avantages</span>
+                <h2>Pourquoi choisir Kompagni ?</h2>
+                <p>Des bénéfices concrets pour chaque utilisateur.</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card reveal reveal-delay-1">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg></div>
                     <h4>Simplicité absolue</h4>
-                    <p>Trouvez et réservez le professionnel idéal en quelques clics, sans appels téléphoniques ni attente.</p>
+                    <p>Trouvez et réservez le professionnel idéal en quelques clics, sans appels ni attente.</p>
                 </div>
-
-                <div class="benefit-card">
-                    <div class="benefit-icon">🛡️</div>
+                <div class="benefit-card reveal reveal-delay-2">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg></div>
                     <h4>Confiance garantie</h4>
-                    <p>Accédez aux avis vérifiés et profils détaillés pour faire le meilleur choix pour votre compagnon.</p>
+                    <p>Avis vérifiés et profils détaillés pour le meilleur choix pour votre compagnon.</p>
                 </div>
-
-                <div class="benefit-card">
-                    <div class="benefit-icon">🌱</div>
+                <div class="benefit-card reveal reveal-delay-3">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22c-4-4-8-7.5-8-11a8 8 0 0 1 16 0c0 3.5-4 7-8 11z" />
+                            <path d="M12 11V6" />
+                            <path d="M9.17 8.17L12 6l2.83 2.17" />
+                        </svg></div>
                     <h4>Approche éthique</h4>
-                    <p>Soutenez des professionnels engagés qui partagent vos valeurs de respect et de bien-être animal.</p>
+                    <p>Soutenez des professionnels engagés qui partagent vos valeurs de bien-être animal.</p>
                 </div>
-            </div>
-
-            <div class="benefit-category">
-                <h3><span class="category-icon">💼</span> Pour les professionnels</h3>
-                
-                <div class="benefit-card">
-                    <div class="benefit-icon">📈</div>
+                <div class="benefit-card reveal reveal-delay-4">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                            <polyline points="16 7 22 7 22 13" />
+                        </svg></div>
                     <h4>Plus de visibilité</h4>
-                    <p>Développez votre clientèle grâce à une présence en ligne optimisée et accessible 24/7.</p>
+                    <p>Développez votre clientèle avec une présence en ligne optimisée, accessible 24/7.</p>
                 </div>
-
-                <div class="benefit-card">
-                    <div class="benefit-icon">⏰</div>
-                    <h4>Gain de temps précieux</h4>
-                    <p>Automatisez vos prises de rendez-vous et réduisez les tâches administratives chronophages.</p>
+                <div class="benefit-card reveal reveal-delay-5">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg></div>
+                    <h4>Gain de temps</h4>
+                    <p>Automatisez vos prises de rendez-vous et réduisez les tâches administratives.</p>
                 </div>
-
-                <div class="benefit-card">
-                    <div class="benefit-icon">💡</div>
-                    <h4>Outils professionnels</h4>
-                    <p>Pilotez votre activité avec un tableau de bord complet : statistiques, agenda, notifications.</p>
+                <div class="benefit-card reveal reveal-delay-1">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18h6" />
+                            <path d="M10 22h4" />
+                            <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" />
+                        </svg></div>
+                    <h4>Outils pros</h4>
+                    <p>Pilotez votre activité avec un tableau de bord complet : stats, agenda, notifications.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="contact-content">
-            <h2>Une question ? Parlons-en</h2>
-            <p>Nous sommes à votre écoute pour construire ensemble la plateforme dont les animaux ont besoin.</p>
-            <a href="mailto:contact@kompagni.fr" class="contact-email">contact@kompagni.fr</a>
-        </div>
-    </section>
+        <!-- Early Access -->
+        <section class="early-access" id="inscription">
+            <div class="section-header reveal">
+                <span class="section-label">Accès anticipé</span>
+                <h2>Rejoignez l'aventure</h2>
+                <p>Inscrivez-vous pour être parmi les premiers informés du lancement.</p>
+            </div>
+
+            <div class="form-wrapper reveal">
+                <div class="form-card">
+                    <div class="form-info">
+                        <p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="vertical-align:-2px;margin-right:4px;color:var(--green-300)">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg> <strong>Pourquoi ces infos ?</strong> Vos données nous aident à mesurer l'intérêt
+                            pour le projet. On construit Kompagni ensemble.</p>
+                    </div>
+
+                    <form id="earlyAccessForm">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Vous êtes</label>
+                            <select id="status" required>
+                                <option value="">Sélectionnez votre profil</option>
+                                <option value="particulier">🐾 Propriétaire d'animal</option>
+                                <option value="professionnel">💼 Professionnel animalier</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Ville</label>
+                            <input type="text" id="city" placeholder="Poitiers, Paris, Lyon...">
+                        </div>
+                        <button type="submit" class="form-submit">Être informé du lancement →</button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess">
+                        <div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg></div>
+                        <h3>Merci !</h3>
+                        <p>Nous vous contacterons dès le lancement de Kompagni.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="contact" id="contact">
+            <div class="contact-content">
+                <div class="section-header reveal">
+                    <span class="section-label">Contact</span>
+                    <h2>Une question ?</h2>
+                    <p>Nous sommes à votre écoute pour construire ensemble la plateforme dont les animaux ont besoin.
+                    </p>
+                </div>
+                <div class="reveal">
+                    <a href="mailto:contact@kompagni.fr" class="contact-email">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M22 7l-10 7L2 7" />
+                        </svg>
+                        contact@kompagni.fr
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 Kompagni - Prendre soin, simplement</p>
+            <p>&copy; 2025 Kompagni — Prendre soin, simplement.</p>
+            <a href="mailto:contact@kompagni.fr">contact@kompagni.fr</a>
         </div>
     </footer>
 
+    <!-- Google verification -->
     <script>
+        // ═══════════════════════════════════════════════
+        // NAV SCROLL EFFECT
+        // ═══════════════════════════════════════════════
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
 
-        // Smooth scroll
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        }, { passive: true });
+
+        // ═══════════════════════════════════════════════
+        // MOBILE MENU
+        // ═══════════════════════════════════════════════
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+            const isOpen = navLinks.classList.contains('open');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // ═══════════════════════════════════════════════
+        // SMOOTH SCROLL
+        // ═══════════════════════════════════════════════
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -875,52 +1563,72 @@
             });
         });
 
-        // Form submission
-        document.getElementById('earlyAccessForm').addEventListener('submit', function(e) {
+        // ═══════════════════════════════════════════════
+        // TABS
+        // ═══════════════════════════════════════════════
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`tab-${target}`).classList.add('active');
+
+                // Re-trigger reveal for new tab items
+                document.querySelectorAll(`#tab-${target} .reveal`).forEach(el => {
+                    el.classList.remove('visible');
+                    setTimeout(() => el.classList.add('visible'), 50);
+                });
+            });
+        });
+
+        // ═══════════════════════════════════════════════
+        // SCROLL REVEAL
+        // ═══════════════════════════════════════════════
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -60px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ═══════════════════════════════════════════════
+        // FORM SUBMISSION
+        // ═══════════════════════════════════════════════
+        const form = document.getElementById('earlyAccessForm');
+        const formSuccess = document.getElementById('formSuccess');
+
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const status = document.getElementById('status').value;
             const city = document.getElementById('city').value;
-            
-            // Simulation d'envoi (à remplacer par votre backend)
+
+            // TODO: Replace with actual backend call
             console.log('Inscription:', { email, status, city });
-            
-            // Feedback utilisateur
-            alert('Merci ! Nous vous contacterons dès le lancement de Kompagni 🐾');
-            this.reset();
-        });
-        // Nav scroll effect
-        const nav = document.querySelector('nav');
 
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-        // Scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.benefit-card, .journey-path').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
+            // Show success
+            form.style.display = 'none';
+            document.querySelector('.form-info').style.display = 'none';
+            formSuccess.classList.add('show');
         });
     </script>
 </body>
+
 </html>
