@@ -45,7 +45,7 @@
     </script>
 
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <link rel="icon" type="image/ico" sizes="96x96" href="favicon.ico">
+    <link rel="icon" type="image/ico" sizes="96x96" href="favicon-96x96.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1619,14 +1619,54 @@
             const email = document.getElementById('email').value;
             const status = document.getElementById('status').value;
             const city = document.getElementById('city').value;
+            const submitBtn = form.querySelector('.form-submit');
+            const originalText = submitBtn.textContent;
 
-            // TODO: Replace with actual backend call
-            console.log('Inscription:', { email, status, city });
+            // UI Update for loading state
+            submitBtn.textContent = 'Inscription en cours... ⏳';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
 
-            // Show success
-            form.style.display = 'none';
-            document.querySelector('.form-info').style.display = 'none';
-            formSuccess.classList.add('show');
+            // Determine API URL based on environment
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const apiUrl = isLocalhost
+                ? 'http://localhost:8080/waitlist'
+                : 'https://secure-kerstin-kompagni-b00820e2.koyeb.app/waitlist';
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, profile: status, city }),
+            })
+                .then(async response => {
+                    if (!response.ok) {
+                        const errData = await response.json().catch(() => ({}));
+                        throw new Error(errData.message || 'Erreur lors de l\'inscription');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Show success
+                    form.style.display = 'none';
+                    const formInfo = document.querySelector('.form-info');
+                    if (formInfo) formInfo.style.display = 'none';
+                    formSuccess.classList.add('show');
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    // Si l'utilisateur est déjà inscrit (ConflictException depuis le backend)
+                    if (error.message.includes('already registered')) {
+                        alert('Cette adresse email est déjà inscrite sur la liste d\'attente !');
+                    } else {
+                        alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer dans quelques instants.');
+                    }
+                    // Reset button UI
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                });
         });
     </script>
 </body>
