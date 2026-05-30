@@ -436,4 +436,489 @@
     .cta-inner {
       max-width: 640px;
       margin: 0 auto;
-      text-align
+      text-align: center;
+    }
+    .cta-section .section-label { color: rgba(246,243,238,0.5); }
+    .cta-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--papier);
+      margin-bottom: 1rem;
+      line-height: 1.15;
+    }
+    .cta-section p { color: rgba(246,243,238,0.7); margin-bottom: 2.5rem; font-size: 1rem; }
+    .form-card {
+      background: var(--papier);
+      border-radius: var(--r);
+      padding: 2rem;
+      text-align: left;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ardoise);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--papier);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ardoise);
+      outline: none;
+      transition: border-color 0.15s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--sapin); }
+    .form-submit {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--sapin);
+      color: var(--papier);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover { background: var(--sapin-hover); }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .form-success.show { display: block; }
+    .form-success h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--sapin);
+      margin-bottom: 0.5rem;
+    }
+    .form-success p { font-size: 0.9rem; color: var(--text-muted); }
+    /* ── CONTACT ─────────────────────────────────────────── */
+    .contact { background: var(--ardoise); padding: 4rem 1.5rem; }
+    .contact-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .contact h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--papier);
+    }
+    .contact p { font-size: 0.88rem; color: rgba(246,243,238,0.5); margin-top: 0.35rem; }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255,255,255,0.07);
+      border: 0.5px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--papier);
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .contact-email:hover { background: rgba(255,255,255,0.12); }
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: var(--ardoise);
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      padding: 1.5rem;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 8px; }
+    .footer-logo-name { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--papier); }
+    footer p { font-size: 0.78rem; color: rgba(246,243,238,0.3); }
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: calc(100% + 8px); left: 1rem; right: 1rem; background: var(--papier); border: 0.5px solid var(--border); border-radius: var(--r); padding: 0.75rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 0.65rem 0.9rem; }
+      .menu-toggle { display: block; }
+      header { position: fixed; }
+      .hero h1 { font-size: 2.4rem; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+      .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .tab-content.active { display: grid; grid-template-columns: 1fr 1fr; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .benefit-card:nth-child(n) { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .benefit-card:last-child { border-bottom: none; }
+      .proof-cards { grid-template-columns: 1fr; }
+      .contact-inner { flex-direction: column; align-items: flex-start; }
+      .footer-inner { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .tab-content.active { grid-template-columns: 1fr; }
+      .hero-stats { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;" aria-hidden="true">
+  <defs>
+    <symbol id="klogo" viewBox="0 0 512 512">
+      <path d="M256 119.5c-35.4 0-69.5 19.8-88.8 52.4-23.7 40.2-20.3 90.7 8.3 128.2 23.3 30.5 59.8 62.7 101 94.6 2.3 1.8 5.6 1.8 7.9 0 41.2-31.9 77.7-64.1 101-94.6 28.6-37.5 32-88 8.3-128.2-19.3-32.6-53.4-52.4-88.8-52.4-24.1 0-47.5 9.2-65.5 25.7-18-16.5-41.4-25.7-65.4-25.7zm0 46.1c13.7 0 27.2 6.4 36.6 17.6 2.4 2.8 6.7 2.8 9.1 0 9.4-11.2 22.9-17.6 36.6-17.6 24.1 0 46.3 14 58.2 34.2 16.5 28 12.8 63-8.8 91.3-19.4 25.4-52.7 54.9-90.8 84.7-38.1-29.8-71.4-59.3-90.8-84.7-21.6-28.3-25.3-63.3-8.8-91.3 11.9-20.2 34.1-34.2 58.2-34.2zM95 278.4c-2.3.1-4.6 1.1-6.2 2.8-21.5 22.8-31 52.8-26.1 82.5 6.6 40.3 38.3 72 78.6 78.6 29.7 4.9 59.7-4.6 82.5-26.1 2.8-2.6 3.4-6.8 1.4-10.1l-12-20c-1.7-2.8-5.2-3.9-8.2-2.5-16.2 7.6-34.9 8.9-52 3.3-21.6-7.1-38.3-24.9-43.9-46.7-4.4-17.1-1.4-35.1 8-49.3 2-3 1.4-7.1-1.5-9.3l-18-13.5c-1.4-1.1-3.1-1.6-4.8-1.5zm322 0c-1.7-.1-3.4.4-4.8 1.5l-18 13.5c-2.9 2.2-3.5 6.3-1.5 9.3 9.4 14.2 12.4 32.2 8 49.3-5.6 21.8-22.3 39.6-43.9 46.7-17.1 5.6-35.8 4.3-52-3.3-3-1.4-6.5-.3-8.2 2.5l-12 20c-2 3.3-1.4 7.5 1.4 10.1 22.8 21.5 52.8 31 82.5 26.1 40.3-6.6 72-38.3 78.6-78.6 4.9-29.7-4.6-59.7-26.1-82.5-1.6-1.7-3.9-2.7-6.2-2.8z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header id="navbar">
+  <nav>
+    <a href="#" class="nav-logo" aria-label="Kompagni — accueil">
+      <svg class="nav-logo-mark" viewBox="0 0 100 90" fill="#2D6A4F" aria-hidden="true"><use href="#klogo"/></svg>
+      <span class="nav-logo-name">Kompagni</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#benefices">Bénéfices</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#inscription" class="nav-cta">Rejoindre</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Bientôt disponible</p>
+      <h1>Votre salon mérite<br>un outil <em>à sa hauteur.</em></h1>
+      <p class="hero-sub">Kompagni gère vos rendez-vous, vos fiches animaux et votre agenda à votre place. Vous, vous vous concentrez sur ce que vous faites de mieux.</p>
+      <div class="hero-actions">
+        <a href="#inscription" class="btn btn-primary">
+          <i class="ph ph-envelope-simple"></i>
+          Être informé du lancement
+        </a>
+        <a href="#fonctionnement" class="btn btn-ghost">
+          Voir comment ça marche
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">0€</div>
+          <div class="hero-stat-label">pour le lancement</div>
+        </div>
+        <div>          <div class="hero-stat-num">2 min</div>
+          <div class="hero-stat-label">pour configurer votre agenda</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">pensé pour les toiletteurs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem">
+    <div class="container">
+      <div class="problem-grid">
+        <div class="problem-left reveal">
+          <span class="section-label">Le constat</span>
+          <h2 class="section-title">Gérer un salon de toilettage, c'est jongler en permanence.</h2>
+          <p class="section-body">Les appels en plein toilettage, le carnet de rendez-vous perdu, les clients qui oublient — tout ça prend un temps et une énergie que vous devriez dépenser sur vos animaux.</p>
+        </div>
+        <div class="problem-pains">
+          <div class="pain-item reveal reveal-d1">
+            <div class="pain-icon"><i class="ph ph-phone"></i></div>
+            <div class="pain-text">
+              <strong>Interruptions constantes</strong>
+              <p>Décrocher le téléphone en plein travail, rappeler entre deux clients — un vrai casse-tête.</p>
+            </div>
+          </div>
+          <div class="pain-item reveal reveal-d2">
+            <div class="pain-icon"><i class="ph ph-calendar-x"></i></div>
+            <div class="pain-text">
+              <strong>Rendez-vous oubliés</strong>
+              <p>Les no-shows et les annulations de dernière minute qui désorganisent toute la journée.</p>
+            </div>
+          </div>
+          <div class="pain-item reveal reveal-d3">
+            <div class="pain-icon"><i class="ph ph-file-dashed"></i></div>
+            <div class="pain-text">
+              <strong>Fiches animaux éparpillées</strong>
+              <p>Retrouver les informations de l'animal, ses habitudes, ses allergies — souvent trop tard.</p>
+            </div>
+          </div>
+          <div class="pain-item reveal reveal-d4">
+            <div class="pain-icon"><i class="ph ph-brain"></i></div>
+            <div class="pain-text">
+              <strong>Charge mentale invisible</strong>
+              <p>Tout retenir dans sa tête : tarifs, disponibilités, préférences clients. C'est épuisant.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="fonctionnement">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Fonctionnement</span>
+        <h2 class="section-title">Simple à prendre en main.<br><em>Puissant dans le quotidien.</em></h2>
+      </div>
+      <div class="tabs-wrap reveal">
+        <button class="tab-btn active" data-tab="pros">Pour vous — le toiletteur</button>
+        <button class="tab-btn" data-tab="owners">Pour vos clients</button>
+      </div>
+      <div class="tab-content active" id="tab-pros">
+        <div class="step-card reveal reveal-d1">
+          <div class="step-num">01</div>
+          <h4>Créez votre profil</h4>
+          <p>Vos services, vos tarifs, vos horaires. Configuré en 2 minutes, modifiable à tout moment.</p>
+        </div>
+        <div class="step-card reveal reveal-d2">
+          <div class="step-num">02</div>
+          <h4>Gérez votre agenda</h4>
+          <p>Vos disponibilités en temps réel, vos pauses, vos absences — tout est automatisé.</p>
+        </div>
+        <div class="step-card reveal reveal-d3">
+          <div class="step-num">03</div>
+          <h4>Suivez vos animaux</h4>
+          <p>Fiche détaillée par animal : race, taille, comportement, prestations passées.</p>
+        </div>
+        <div class="step-card reveal reveal-d4">
+          <div class="step-num">04</div>
+          <h4>Respirez</h4>
+          <p>Les rappels partent seuls, les conflits sont détectés, votre journée est organisée sans vous.</p>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-owners">
+        <div class="step-card reveal reveal-d1">
+          <div class="step-num">01</div>
+          <h4>Trouvez votre toiletteur</h4>
+          <p>Accédez aux disponibilités réelles de votre salon habituel, sans appel.</p>
+        </div>
+        <div class="step-card reveal reveal-d2">
+          <div class="step-num">02</div>
+          <h4>Réservez en ligne</h4>
+          <p>Choisissez le créneau, la prestation, confirmez — en 30 secondes depuis votre téléphone.</p>
+        </div>
+        <div class="step-card reveal reveal-d3">
+          <div class="step-num">03</div>
+          <h4>Recevez un rappel</h4>
+          <p>Un SMS ou email la veille du rendez-vous. Pas d'oubli, pas de malentendu.</p>
+        </div>
+        <div class="step-card reveal reveal-d4">
+          <div class="step-num">04</div>
+          <h4>Revenez facilement</h4>
+          <p>Votre historique, vos préférences et la fiche de votre animal sont déjà enregistrés.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefices">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Pourquoi Kompagni</span>
+        <h2 class="section-title">Fait pour le terrain,<br><em>pas pour une démonstration.</em></h2>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card reveal reveal-d1">
+          <div class="benefit-icon"><i class="ph ph-clock-countdown"></i></div>
+          <h4>Gain de temps réel</h4>
+          <p>Moins de téléphone, moins d'administration. Vous récupérez des heures chaque semaine.</p>
+        </div>
+        <div class="benefit-card reveal reveal-d2">
+          <div class="benefit-icon"><i class="ph ph-calendar-check"></i></div>
+          <h4>Zéro conflit d'agenda</h4>
+          <p>L'algorithme vérifie vos horaires, vos pauses et vos absences. Aucun double-booking possible.</p>
+        </div>
+        <div class="benefit-card reveal reveal-d3">
+          <div class="benefit-icon"><i class="ph ph-paw-print"></i></div>
+          <h4>Fiches animaux centralisées</h4>
+          <p>Race, gabarit, comportement, type de poil — tout est là quand vous en avez besoin.</p>
+        </div>
+        <div class="benefit-card reveal reveal-d4">
+          <div class="benefit-icon"><i class="ph ph-bell-ringing"></i></div>
+          <h4>Rappels automatiques</h4>
+          <p>Vos clients sont prévenus sans que vous leviez le petit doigt. Moins de no-shows.</p>
+        </div>
+        <div class="benefit-card reveal reveal-d3">
+          <div class="benefit-icon"><i class="ph ph-currency-eur"></i></div>
+          <h4>Tarification intelligente</h4>
+          <p>Suppléments gabarit, démêlage, comportement — calculés automatiquement à chaque devis.</p>
+        </div>
+        <div class="benefit-card reveal reveal-d4">
+          <div class="benefit-icon"><i class="ph ph-handshake"></i></div>
+          <h4>Un outil proche de vous</h4>
+          <p>Pas un géant généraliste. Kompagni est construit pour et avec les pros du toilettage canin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="container">
+      <div class="proof-header reveal">
+        <div>
+          <span class="section-label">Ils nous font confiance</span>
+          <h2 class="section-title">Ce que disent<br>nos premiers utilisateurs.</h2>
+        </div>
+      </div>
+      <div class="proof-cards">
+        <div class="proof-card reveal reveal-d1">
+          <p class="proof-quote">« Avant je prenais tous mes rendez-vous sur un carnet papier. Là, mes clients réservent la nuit et je trouve tout prêt le matin. »</p>
+          <div class="proof-author">Sophie R.</div>
+          <div class="proof-role">Toiletteuse indépendante, Bordeaux</div>
+        </div>
+        <div class="proof-card reveal reveal-d2">
+          <p class="proof-quote">« La fiche animale m'a sauvé la mise avec un golden retriever sensible. Tout était marqué — ses préférences, ses traitements. »</p>
+          <div class="proof-author">Marc T.</div>
+          <div class="proof-role">Salon de toilettage, Lyon</div>
+        </div>
+        <div class="proof-card reveal reveal-d3">
+          <p class="proof-quote">« J'ai divisé par deux le temps passé au téléphone. Le reste, je le passe avec mes clients à quatre pattes. »</p>
+          <div class="proof-author">Amélie D.</div>
+          <div class="proof-role">Toiletteuse, Nantes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="inscription">
+    <div class="cta-inner">
+      <span class="section-label">Accès anticipé</span>
+      <h2>Rejoignez les premiers.</h2>
+      <p>Inscrivez-vous maintenant pour être informé du lancement et bénéficier des conditions fondateurs.</p>
+      <div class="form-card">
+        <form id="earlyAccessForm">
+          <div class="form-group">
+            <label for="email">Adresse email</label>
+            <input type="email" id="email" placeholder="votre@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="status">Vous êtes</label>
+            <select id="status" required>              <option value="">Sélectionnez votre profil</option>
+              <option value="professionnel">Toiletteur professionnel</option>
+              <option value="particulier">Propriétaire d'animal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="city">Ville</label>
+            <input type="text" id="city" placeholder="Bordeaux, Paris, Lyon...">
+          </div>
+          <button type="submit" class="form-submit">Être informé du lancement →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <h3>Merci !</h3>
+          <p>On vous contactera dès le lancement de Kompagni.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div>
+        <h2>Une question ?</h2>
+        <p>On est joignables directement, sans formulaire.</p>
+      </div>
+      <a href="mailto:contact@kompagni.fr" class="contact-email">
+        <i class="ph ph-envelope-simple"></i>
+        contact@kompagni.fr
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="20" height="18" viewBox="0 0 100 90" fill="#2D6A4F" aria-hidden="true"><use href="#klogo"/></svg>
+      <span class="footer-logo-name">Kompagni</span>
+    </div>
+    <p>© 2026 Kompagni — Prendre soin, simplement.</p>
+    <a href="mailto:contact@kompagni.fr" style="font-size:0.78rem; color:rgba(246,243,238,0.35);">contact@kompagni.fr</a>
+  </div>
+</footer>
+
+<script>
+  // Gestion du défilement de la barre de navigation
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Gestion du menu mobile (Burger Menu)
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  
+  menuToggle.addEventListener('click', () => {
+    const isOpened = navLinks.classList.toggle('open');
+    menuToggle.classList.toggle('active', isOpened);
+    menuToggle.setAttribute('aria-expanded', isOpened);
+  });
+
+  // Gestion du système d'onglets (Tabs)
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetTab = button.getAttribute('data-tab');
+
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      button.classList.add('active');
+      document.getElementById(`tab-${targetTab}`).classList.add('active');
+    });
+  });
+
+  // Logique d'affichage des éléments au défilement (Intersection Observer)
+  const revealElements = document.querySelectorAll('.reveal');
+  const observerOptions = { root: null, threshold: 0.1, rootMargin: '0px' };
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  revealElements.forEach(element => revealObserver.observe(element));
+
+  // Soumission factuelle du formulaire d'accès anticipé
+  const form = document.getElementById('earlyAccessForm');
+  const successMessage = document.getElementById('formSuccess');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.style.display = 'none';
+    successMessage.classList.add('show');
+  });
+</script>
+</body>
+</html>
