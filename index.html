@@ -71,8 +71,11 @@
     }
 
     .brand span {
-      font-weight: 700;
-      font-size: 1.15rem;
+      font-family: 'DM Serif Display', serif;
+      font-weight: normal;
+      font-size: 1.4rem;
+      letter-spacing: 0.01em;
+      line-height: 1;
       color: var(--deep);
     }
 
@@ -372,6 +375,328 @@
       font-weight: 600;
     }
 
+    .section-lead {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 620px;
+      margin: 12px 0 0;
+    }
+
+    /* ---- Lecteur vidéo ---- */
+
+    .player {
+      /* Recadrage : passez à 1.05, 1.1… si le fichier vidéo contient des
+         bandes noires incrustées dans l'image. 1 = aucun recadrage. */
+      --video-crop: 1;
+      /* Rayon partagé : le voile flouté s'y raccorde tout seul. */
+      --player-radius: 28px;
+
+      position: relative;
+      margin-top: 28px;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      /* Fond accordé au blanc cassé de la page : si un pixel du cadre
+         transparaît sous la vidéo, il ne peut pas former de liseré visible. */
+      background: var(--bg);
+      border: 0;
+      border-radius: var(--player-radius);
+      overflow: hidden;
+      /* Nouvelle pile de composition : sans elle, les navigateurs composent la
+         vidéo sur sa propre couche et le détourage arrondi laisse des pixels
+         parasites dans les coins. */
+      isolation: isolate;
+      user-select: none;
+      outline: none;
+    }
+
+    .player:focus-visible {
+      outline: 3px solid var(--fluo);
+      outline-offset: 3px;
+    }
+
+    .player video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* La vidéo porte elle-même l'arrondi : elle ne dépend plus du seul
+         overflow du parent pour être détourée. */
+      border-radius: inherit;
+      transform: scale(var(--video-crop));
+      transform-origin: center;
+      background: var(--bg);
+      /* Un <video> sans image décodée est peint en noir opaque, par-dessus le
+         background CSS. On le garde masqué jusqu'à la première image réelle,
+         le cadre clair du conteneur tient la place entre-temps. */
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .player.is-ready video {
+      opacity: 1;
+    }
+
+    .player.hide-cursor,
+    .player.hide-cursor * {
+      cursor: none;
+    }
+
+    .player-controls {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      /* Marges latérales > rayon des coins, pour que les boutons d'extrémité
+         ne viennent pas mordre la courbure. */
+      padding: 44px 22px 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    /* Le glissement porte sur le contenu, jamais sur .player-controls : un
+       transform sur le parent déplacerait aussi le voile flouté hors du cadre,
+       et son détourage arrondi ne suivrait pas. */
+    .player-controls .progress,
+    .player-controls .player-bar {
+      transform: translateY(8px);
+      transition: transform 0.25s ease;
+    }
+
+    .player.show-ui .player-controls .progress,
+    .player.show-ui .player-controls .player-bar {
+      transform: none;
+    }
+
+    /* Voile en verre dépoli, sur deux paliers de flou : le masque en dégradé
+       fait disparaître le voile vers le haut au lieu de le couper net. */
+    .player-controls::before,
+    .player-controls::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      pointer-events: none;
+      /* Le voile porte lui-même l'arrondi du bas : il ne dépend plus du
+         détourage du parent, que le compositeur n'applique pas de façon fiable
+         à une couche backdrop-filter. */
+      border-bottom-left-radius: var(--player-radius);
+      border-bottom-right-radius: var(--player-radius);
+    }
+
+    .player-controls::before {
+      height: 100%;
+      -webkit-backdrop-filter: blur(7px);
+      backdrop-filter: blur(7px);
+      -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 42%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+      mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 42%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+    }
+
+    /* Palier bas : flou plus dense et voile teinté juste assez pour que le
+       blanc des icônes tienne, y compris sur une image claire. */
+    .player-controls::after {
+      height: 72%;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to top, rgba(1, 57, 40, 0.34), rgba(1, 57, 40, 0.12) 55%, rgba(1, 57, 40, 0));
+      -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.45) 55%, transparent 100%);
+      mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.45) 55%, transparent 100%);
+    }
+
+    /* Sans backdrop-filter, le flou ne s'applique pas : on retombe sur un
+       dégradé un peu plus marqué pour ne pas perdre la lisibilité. */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .player-controls::after {
+        background: linear-gradient(to top, rgba(1, 57, 40, 0.72), rgba(1, 57, 40, 0.3) 55%, rgba(1, 57, 40, 0));
+      }
+    }
+
+    .player.show-ui .player-controls {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .progress {
+      position: relative;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      touch-action: none;
+    }
+
+    .progress-rail {
+      position: relative;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.38);
+      overflow: hidden;
+      /* La barre est haut placée, donc peu couverte par le voile : cette ombre
+         la détache d'une image claire. */
+      box-shadow: 0 1px 3px rgba(1, 57, 40, 0.45);
+      transition: height 0.15s ease;
+    }
+
+    .progress:hover .progress-rail,
+    .progress.is-dragging .progress-rail {
+      height: 6px;
+    }
+
+    .progress-buffered,
+    .progress-played {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+    }
+
+    .progress-buffered {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .progress-played {
+      background: var(--fluo);
+    }
+
+    .progress-handle {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 13px;
+      height: 13px;
+      margin-left: -6.5px;
+      border-radius: 50%;
+      background: var(--fluo);
+      box-shadow: 0 1px 4px rgba(1, 57, 40, 0.5);
+      pointer-events: none;
+      transform: translateY(-50%) scale(0);
+      transition: transform 0.15s ease;
+    }
+
+    .progress:hover .progress-handle,
+    .progress.is-dragging .progress-handle {
+      transform: translateY(-50%) scale(1);
+    }
+
+    .player-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .pbtn {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      padding: 5px;
+      border-radius: 8px;
+      line-height: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0.95;
+      /* Le voile est volontairement léger : c'est cette ombre qui garantit le
+         contraste des icônes, quelle que soit la clarté de l'image dessous. */
+      filter: drop-shadow(0 1px 2px rgba(1, 57, 40, 0.65));
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .pbtn:hover,
+    .pbtn:focus-visible {
+      color: var(--fluo);
+      opacity: 1;
+    }
+
+    .pspeed {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 600;
+      line-height: 1;
+      padding: 6px 8px;
+      min-width: 38px;
+    }
+
+    .ptime {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      margin-left: 2px;
+      text-shadow: 0 1px 2px rgba(1, 57, 40, 0.7);
+    }
+
+    .pspacer {
+      flex: 1;
+    }
+
+    .volume {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .volume input {
+      width: 0;
+      opacity: 0;
+      height: 4px;
+      accent-color: var(--fluo);
+      transition: width 0.22s ease, opacity 0.22s ease;
+    }
+
+    .volume:hover input,
+    .volume input:focus-visible {
+      width: 74px;
+      opacity: 1;
+    }
+
+    .player:fullscreen {
+      --player-radius: 0px;
+      aspect-ratio: auto;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #000;
+    }
+
+    /* En plein écran l'écran n'est plus en 16/9 : on affiche l'image entière
+       plutôt que de la rogner. */
+    .player:fullscreen video {
+      object-fit: contain;
+      background: #000;
+    }
+
+    @media (max-width: 560px) {
+      .player {
+        --player-radius: 20px;
+      }
+
+      .player-controls {
+        padding: 34px 14px 10px;
+      }
+
+      .player-bar {
+        gap: 4px;
+      }
+
+      .volume input {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .player-controls,
+      .progress-rail,
+      .progress-handle {
+        transition: none;
+      }
+    }
+
     footer {
       max-width: 1000px;
       margin: 0 auto;
@@ -484,6 +809,45 @@
       </div>
     </section>
 
+    <section id="demo">
+      <h2 style="color:var(--deep); font-size:1.4rem;">Le parcours de réservation</h2>
+      <p class="section-lead">Le wizard de prise de rendez-vous côté client, de bout en bout : choix du salon et de la
+        prestation, sélection de l'animal, puis créneau disponible avec durée et tarif estimés en temps réel par le
+        Kairos Engine.</p>
+
+      <!-- Source : "presentation teaser.mp4" (l'espace est encodée en %20 dans l'URL).
+           muted est requis par les navigateurs pour autoriser la lecture automatique. -->
+      <div class="player" id="player" tabindex="0"
+        aria-label="Vidéo : le parcours de prise de rendez-vous côté client">
+        <video id="kompagni-video" playsinline preload="metadata" muted loop>
+          <source src="presentation%20teaser.mp4" type="video/mp4">
+          Votre navigateur ne prend pas en charge la lecture vidéo HTML5.
+        </video>
+
+        <div class="player-controls">
+          <div class="progress" data-role="progress" role="slider" tabindex="-1" aria-label="Progression de la vidéo"
+            aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-rail">
+              <div class="progress-buffered" data-role="buffered"></div>
+              <div class="progress-played" data-role="played"></div>
+            </div>
+            <div class="progress-handle" data-role="handle"></div>
+          </div>
+          <div class="player-bar">
+            <button class="pbtn" data-role="play" type="button" aria-label="Lecture"></button>
+            <span class="ptime" data-role="time">0:00 / 0:00</span>
+            <span class="pspacer"></span>
+            <button class="pbtn pspeed" data-role="speed" type="button" aria-label="Vitesse de lecture">1×</button>
+            <div class="volume">
+              <button class="pbtn" data-role="mute" type="button" aria-label="Couper le son"></button>
+              <input type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+            </div>
+            <button class="pbtn" data-role="fullscreen" type="button" aria-label="Plein écran"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section>
       <h2 style="color:var(--deep); font-size:1.4rem;">Stack technique</h2>
       <div class="stack-group">
@@ -587,7 +951,342 @@
     carousel.addEventListener('mouseenter', pause);
     carousel.addEventListener('mouseleave', resume);
 
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touching = false;
+
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touching = true;
+      pause();
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', (e) => {
+      if (!touching) return;
+      const dx = e.touches[0].clientX - touchStartX;
+      const dy = e.touches[0].clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+    }, { passive: false });
+
+    carousel.addEventListener('touchend', (e) => {
+      if (!touching) return;
+      touching = false;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const SWIPE_THRESHOLD = 40;
+      if (dx > SWIPE_THRESHOLD) {
+        goTo(current - 1);
+      } else if (dx < -SWIPE_THRESHOLD) {
+        goTo(current + 1);
+      } else {
+        resume();
+      }
+    });
+
     goTo(0);
+  </script>
+
+  <script>
+    (function () {
+      const player = document.getElementById('player');
+      if (!player) return;
+
+      const S = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+      const ICON = {
+        play: '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5.14v13.72L19 12 8 5.14z"/></svg>',
+        pause: '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 5h3.4v14H7zm6.6 0H17v14h-3.4z"/></svg>',
+        volume: S + '<path d="M4 9.5h3L11 6v12l-4-3.5H4z" fill="currentColor" stroke="none"/><path d="M15.2 9.3a3.8 3.8 0 0 1 0 5.4"/><path d="M17.9 6.7a7.5 7.5 0 0 1 0 10.6"/></svg>',
+        muted: S + '<path d="M4 9.5h3L11 6v12l-4-3.5H4z" fill="currentColor" stroke="none"/><path d="M15.5 9.5l5 5m0-5l-5 5"/></svg>',
+        enterFs: S + '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+        exitFs: S + '<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>'
+      };
+
+      const el = r => player.querySelector('[data-role="' + r + '"]');
+      const video = player.querySelector('video');
+      const playBtn = el('play');
+      const muteBtn = el('mute');
+      const speedBtn = el('speed');
+      const fsBtn = el('fullscreen');
+      const progress = el('progress');
+      const played = el('played');
+      const buffered = el('buffered');
+      const handle = el('handle');
+      const timeEl = el('time');
+      const volRange = player.querySelector('.volume input');
+
+      playBtn.innerHTML = ICON.play;
+      fsBtn.innerHTML = ICON.enterFs;
+
+      let dragging = false;
+      let hideTimer = null;
+      let raf = null;
+      let clickTimer = null;
+      // Mis à vrai dès que le visiteur mets lui-même la vidéo en pause : la
+      // lecture au défilement ne doit pas passer outre sa décision.
+      let userPaused = false;
+
+      function fmt(s) {
+        if (!isFinite(s) || s < 0) s = 0;
+        s = Math.floor(s);
+        const h = Math.floor(s / 3600);
+        const m = Math.floor(s / 60) % 60;
+        const sec = s % 60;
+        const pad = n => String(n).padStart(2, '0');
+        return h ? h + ':' + pad(m) + ':' + pad(sec) : m + ':' + pad(sec);
+      }
+
+      function setPercent(p) {
+        played.style.width = p + '%';
+        handle.style.left = p + '%';
+        progress.setAttribute('aria-valuenow', Math.round(p));
+      }
+
+      function render() {
+        const d = video.duration;
+        if (!dragging) setPercent(d ? (video.currentTime / d) * 100 : 0);
+        if (d && video.buffered.length) {
+          let end = 0;
+          for (let i = 0; i < video.buffered.length; i++) {
+            if (video.buffered.start(i) <= video.currentTime) end = video.buffered.end(i);
+          }
+          buffered.style.width = Math.min(100, (end / d) * 100) + '%';
+        }
+        timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+        raf = video.paused ? null : requestAnimationFrame(render);
+      }
+
+      function loop() {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(render);
+      }
+
+      function showUI() {
+        player.classList.add('show-ui');
+        player.classList.remove('hide-cursor');
+        clearTimeout(hideTimer);
+        if (!video.paused) {
+          hideTimer = setTimeout(function () {
+            player.classList.remove('show-ui');
+            player.classList.add('hide-cursor');
+          }, 2400);
+        }
+      }
+
+      function toggle() {
+        if (video.paused) {
+          userPaused = false;
+          video.play();
+        } else {
+          userPaused = true;
+          video.pause();
+        }
+      }
+
+      function toggleFullscreen() {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else if (player.requestFullscreen) {
+          player.requestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+        }
+      }
+
+      /* --- lecture --- */
+      video.addEventListener('play', function () {
+        playBtn.innerHTML = ICON.pause;
+        playBtn.setAttribute('aria-label', 'Pause');
+        loop();
+        showUI();
+      });
+
+      video.addEventListener('pause', function () {
+        playBtn.innerHTML = ICON.play;
+        playBtn.setAttribute('aria-label', 'Lecture');
+        cancelAnimationFrame(raf);
+        raf = null;
+        render();
+        showUI();
+      });
+
+      // Première image réellement affichée : on révèle la vidéo.
+      video.addEventListener('playing', function () {
+        player.classList.add('is-ready');
+      });
+
+      video.addEventListener('loadedmetadata', render);
+      video.addEventListener('seeked', render);
+      video.addEventListener('progress', render);
+
+      playBtn.addEventListener('click', toggle);
+
+      video.addEventListener('click', function () {
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(toggle, 200);
+      });
+
+      video.addEventListener('dblclick', function () {
+        clearTimeout(clickTimer);
+        toggleFullscreen();
+      });
+
+      /* --- barre de progression --- */
+      function seekFrom(e) {
+        const r = progress.getBoundingClientRect();
+        const ratio = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        setPercent(ratio * 100);
+        if (video.duration) video.currentTime = ratio * video.duration;
+      }
+
+      progress.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        progress.classList.add('is-dragging');
+        progress.setPointerCapture(e.pointerId);
+        seekFrom(e);
+      });
+
+      progress.addEventListener('pointermove', function (e) {
+        if (dragging) seekFrom(e);
+      });
+
+      function endDrag() {
+        dragging = false;
+        progress.classList.remove('is-dragging');
+      }
+      progress.addEventListener('pointerup', endDrag);
+      progress.addEventListener('pointercancel', endDrag);
+
+      /* --- volume --- */
+      volRange.addEventListener('input', function () {
+        video.volume = Number(volRange.value);
+        video.muted = Number(volRange.value) === 0;
+      });
+
+      muteBtn.addEventListener('click', function () {
+        video.muted = !video.muted;
+      });
+
+      video.addEventListener('volumechange', function () {
+        const off = video.muted || video.volume === 0;
+        muteBtn.innerHTML = off ? ICON.muted : ICON.volume;
+        muteBtn.setAttribute('aria-label', off ? 'Activer le son' : 'Couper le son');
+        volRange.value = off ? 0 : video.volume;
+      });
+
+      /* --- vitesse --- */
+      const SPEEDS = [1, 1.25, 1.5, 2, 0.5];
+      let si = 0;
+      speedBtn.addEventListener('click', function () {
+        si = (si + 1) % SPEEDS.length;
+        video.playbackRate = SPEEDS[si];
+        speedBtn.textContent = SPEEDS[si] + '×';
+      });
+
+      /* --- plein écran --- */
+      fsBtn.addEventListener('click', toggleFullscreen);
+      document.addEventListener('fullscreenchange', function () {
+        const on = document.fullscreenElement === player;
+        fsBtn.innerHTML = on ? ICON.exitFs : ICON.enterFs;
+        fsBtn.setAttribute('aria-label', on ? 'Quitter le plein écran' : 'Plein écran');
+      });
+
+      /* --- affichage des contrôles --- */
+      player.addEventListener('pointermove', showUI);
+      player.addEventListener('pointerdown', function () {
+        player.focus({ preventScroll: true });
+        showUI();
+      });
+      player.addEventListener('pointerleave', function () {
+        if (!video.paused) {
+          clearTimeout(hideTimer);
+          player.classList.remove('show-ui');
+        }
+      });
+      player.addEventListener('focusin', showUI);
+
+      /* --- clavier --- */
+      player.addEventListener('keydown', function (e) {
+        const onControl = e.target !== player;
+        switch (e.key) {
+          case ' ':
+          case 'k':
+            if (onControl) return;
+            e.preventDefault();
+            toggle();
+            break;
+          case 'ArrowRight':
+            if (onControl) return;
+            e.preventDefault();
+            video.currentTime = Math.min(video.duration || 0, video.currentTime + 5);
+            break;
+          case 'ArrowLeft':
+            if (onControl) return;
+            e.preventDefault();
+            video.currentTime = Math.max(0, video.currentTime - 5);
+            break;
+          case 'ArrowUp':
+            if (onControl) return;
+            e.preventDefault();
+            video.muted = false;
+            video.volume = Math.min(1, video.volume + 0.1);
+            break;
+          case 'ArrowDown':
+            if (onControl) return;
+            e.preventDefault();
+            video.muted = false;
+            video.volume = Math.max(0, video.volume - 0.1);
+            break;
+          case 'm':
+            video.muted = !video.muted;
+            break;
+          case 'f':
+            toggleFullscreen();
+            break;
+          default:
+            return;
+        }
+        showUI();
+      });
+
+      /* --- lecture automatique à l'entrée dans le champ de vision --- */
+      if ('IntersectionObserver' in window) {
+        // Préchargement anticipé, 600 px avant l'entrée dans le cadre : la
+        // vidéo est déjà en tampon quand la lecture est déclenchée, ce qui
+        // supprime le temps mort au démarrage. On se contente de relever
+        // l'attribut preload — appeler load() ici risquerait d'interrompre une
+        // lecture déjà lancée si les deux observateurs se déclenchent ensemble.
+        new IntersectionObserver(function (entries, obs) {
+          if (entries[0].isIntersecting) {
+            video.preload = 'auto';
+            obs.disconnect();
+          }
+        }, { rootMargin: '600px 0px' }).observe(player);
+
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              if (video.paused && !userPaused) {
+                const p = video.play();
+                // Si le navigateur refuse la lecture automatique, on révèle
+                // quand même la vidéo : sans ça elle resterait masquée sur un
+                // cadre vide. Les contrôles restent utilisables.
+                if (p) p.catch(function () { player.classList.add('is-ready'); });
+              }
+            } else if (!video.paused) {
+              video.pause();
+              // Une pause due au défilement n'est pas une décision du visiteur.
+              userPaused = false;
+            }
+          });
+        }, { threshold: 0.35 }).observe(player);
+      }
+
+      // Le son est coupé au départ (condition de la lecture automatique) :
+      // on synchronise l'icône et le curseur de volume avec cet état.
+      video.dispatchEvent(new Event('volumechange'));
+      showUI();
+      render();
+    })();
   </script>
 </body>
 
