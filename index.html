@@ -407,9 +407,19 @@
       isolation: isolate;
       user-select: none;
       outline: none;
+      /* Évite le délai de ~300ms avant le click sur mobile Safari (qui attend
+         de voir si un second tap va suivre pour zoomer) et désactive le
+         double-tap-zoom natif, qui entrerait en conflit avec le dblclick
+         plein écran. */
+      touch-action: manipulation;
     }
 
-    .player:focus-visible {
+    /* Le contour ne doit apparaître que pour un focus clavier (Tab) : sur
+       mobile, :focus-visible seul ne suffit pas, car player.focus() est aussi
+       appelé au tap (voir pointerdown plus bas) et certains navigateurs
+       tactiles le traitent comme "focus-visible" au même titre qu'un focus
+       clavier. La classe .kbd-focus, posée en JS, tranche explicitement. */
+    .player.kbd-focus {
       outline: 3px solid var(--fluo);
       outline-offset: 3px;
     }
@@ -1191,8 +1201,14 @@
       });
 
       /* --- affichage des contrôles --- */
+      let focusFromKeyboard = false;
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Tab') focusFromKeyboard = true;
+      });
+
       player.addEventListener('pointermove', showUI);
       player.addEventListener('pointerdown', function () {
+        focusFromKeyboard = false;
         player.focus({ preventScroll: true });
         showUI();
       });
@@ -1203,6 +1219,12 @@
         }
       });
       player.addEventListener('focusin', showUI);
+      player.addEventListener('focus', function () {
+        player.classList.toggle('kbd-focus', focusFromKeyboard);
+      });
+      player.addEventListener('blur', function () {
+        player.classList.remove('kbd-focus');
+      });
 
       /* --- clavier --- */
       player.addEventListener('keydown', function (e) {
