@@ -384,77 +384,105 @@
 
     /* ---- Moteur Kairos ---- */
 
+    .kairos {
+      padding: 32px 0;
+    }
+
+    .kairos-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
     .kairos h2 {
       color: var(--deep);
-      font-size: 1.4rem;
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
     }
 
-    .kairos-panel {
-      margin-top: 28px;
-      padding: 28px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #eef6ee;
+    .kairos .section-lead {
+      max-width: 760px;
+      margin-top: 8px;
+      font-size: 0.9rem;
     }
 
-    .kairos-steps {
+    .kairos-nav {
+      display: flex;
+      flex-shrink: 0;
+      gap: 4px;
+    }
+
+    .kairos-nav button {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px;
-      margin: 0;
+      place-items: center;
+      width: 36px;
+      height: 36px;
       padding: 0;
-      list-style: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--deep);
+      font-size: 1.1rem;
+      cursor: pointer;
     }
 
-    .kairos-number {
-      display: inline-grid;
-      place-items: center;
-      width: 32px;
-      height: 32px;
-      margin-bottom: 16px;
-      border-radius: 50%;
+    .kairos-nav button:hover:not(:disabled) {
       background: var(--deep);
       color: var(--fluo);
-      font-size: 0.75rem;
-      font-weight: 600;
     }
 
-    .kairos-steps h3 {
+    .kairos-nav button:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .kairos-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(280px, calc(100% - 24px));
+      gap: 12px;
+      margin-top: 16px;
+      padding-bottom: 10px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: #9bb99e transparent;
+    }
+
+    .kairos-track:focus-visible,
+    .kairos-nav button:focus-visible {
+      outline: 2px solid var(--deep);
+      outline-offset: 3px;
+    }
+
+    .kairos-card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #eef6ee;
+      scroll-snap-align: start;
+    }
+
+    .kairos-card h3 {
       color: var(--deep);
-      font-size: 1.05rem;
+      font-size: 1rem;
       margin-bottom: 8px;
     }
 
-    .kairos-steps p,
-    .kairos-note {
+    .kairos-card h3 span {
+      margin-right: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
       color: var(--muted);
-      font-size: 0.92rem;
+    }
+
+    .kairos-card p {
+      color: var(--muted);
+      font-size: 0.87rem;
+      line-height: 1.5;
       margin: 0;
-    }
-
-    .kairos-note {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid #d5e4d5;
-    }
-
-    .kairos-note strong {
-      color: var(--deep);
-    }
-
-    @media (max-width: 700px) {
-      .kairos-panel {
-        padding: 24px;
-      }
-
-      .kairos-steps {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .kairos-number {
-        margin-bottom: 12px;
-      }
     }
 
     /* ---- Lecteur vidéo ---- */
@@ -946,35 +974,45 @@
     </section>
 
     <section class="kairos" id="kairos" aria-labelledby="kairos-title">
-      <h2 id="kairos-title">KAIROS ENGINE</h2>
-      <p class="section-lead">Le moteur de planification de Kompagni. Derrière les créneaux proposés dans la vidéo,
-        Kairos croise les besoins de l'animal et les contraintes du salon pour estimer le rendez-vous et rechercher
-        les disponibilités.</p>
+      <div class="kairos-heading">
+        <h2 id="kairos-title">KAIROS ENGINE</h2>
+        <div class="kairos-nav" aria-label="Navigation des fonctions de Kairos">
+          <button type="button" data-kairos="prev" aria-controls="kairos-details"
+            aria-label="Fonction précédente"><span aria-hidden="true">←</span></button>
+          <button type="button" data-kairos="next" aria-controls="kairos-details"
+            aria-label="Fonction suivante"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <p class="section-lead">Kairos calcule un devis par professionnel, puis cherche les créneaux compatibles
+        avec la prestation, l'équipe et les ressources du salon.</p>
 
-      <div class="kairos-panel">
-        <ol class="kairos-steps" role="list">
-          <li>
-            <span class="kairos-number" aria-hidden="true">01</span>
-            <h3>Comprendre la prestation</h3>
-            <p>Le profil de l'animal, la prestation choisie et les règles propres au salon alimentent le calcul
-              de la difficulté du rendez-vous.</p>
-          </li>
-          <li>
-            <span class="kairos-number" aria-hidden="true">02</span>
-            <h3>Estimer durée et tarif</h3>
-            <p>Le moteur calcule une estimation du prix et de la durée, en tenant compte des règles du salon
-              et du professionnel qui réalise la prestation.</p>
-          </li>
-          <li>
-            <span class="kairos-number" aria-hidden="true">03</span>
-            <h3>Trouver le bon créneau</h3>
-            <p>Horaires, pauses, disponibilités de l'équipe, tables et supervision des apprentis sont pris en compte
-              pour rechercher les créneaux compatibles.</p>
-          </li>
-        </ol>
-        <p class="kairos-note"><strong>Un planning qui tient compte du travail réel.</strong> La durée utilisée pour
-          calculer le tarif est distinguée du temps occupé dans l'agenda, pour tenir compte du rythme de chaque
-          professionnel.</p>
+      <div class="kairos-track" id="kairos-details" tabindex="0" role="region"
+        aria-label="Fonctions de Kairos Engine, à faire défiler horizontalement">
+        <article class="kairos-card">
+          <h3><span aria-hidden="true">01</span>Profil &amp; difficulté</h3>
+          <p>Prestation, poids, profil de l'animal et observations récentes sont croisés avec les règles du salon
+            pour calculer la difficulté et les ajustements nécessaires.</p>
+        </article>
+        <article class="kairos-card">
+          <h3><span aria-hidden="true">02</span>Durée &amp; tarif</h3>
+          <p>La durée théorique sert au prix. Le temps de travail dépend de la vitesse du professionnel ;
+            l'occupation de la table inclut une marge et un temps de transition.</p>
+        </article>
+        <article class="kairos-card">
+          <h3><span aria-hidden="true">03</span>Créneaux disponibles</h3>
+          <p>Pour chaque professionnel, Kairos croise horaires, pauses, rendez-vous, blocages manuels et occupation
+            des tables, puis recherche les créneaux compatibles avec la durée calculée.</p>
+        </article>
+        <article class="kairos-card">
+          <h3><span aria-hidden="true">04</span>Apprentis &amp; supervision</h3>
+          <p>Plafonds de difficulté, disponibilité d'un superviseur et réservations par demi-journée permettent
+            d'adapter les créneaux proposés à chaque membre de l'équipe.</p>
+        </article>
+        <article class="kairos-card">
+          <h3><span aria-hidden="true">05</span>Confirmation du devis</h3>
+          <p>Le créneau sélectionné fait l'objet d'un verrou temporaire de cinq minutes. Le serveur recalcule
+            le devis au moment de confirmer la réservation.</p>
+        </article>
       </div>
     </section>
 
@@ -1013,6 +1051,32 @@
     Projet personnel développé par Neven — <a href="https://github.com/Nevenjbx" target="_blank"
       rel="noopener">github.com/Nevenjbx</a> — <a href="mailto:neven.joubioux@gmail.com">neven.joubioux@gmail.com</a>
   </footer>
+
+  <script>
+    (function () {
+      const track = document.getElementById('kairos-details');
+      const prev = document.querySelector('[data-kairos="prev"]');
+      const next = document.querySelector('[data-kairos="next"]');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function updateNavigation() {
+        prev.disabled = track.scrollLeft <= 1;
+        next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+      }
+
+      function move(direction) {
+        const card = track.querySelector('.kairos-card');
+        const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+        track.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+      }
+
+      prev.addEventListener('click', function () { move(-1); });
+      next.addEventListener('click', function () { move(1); });
+      track.addEventListener('scroll', updateNavigation, { passive: true });
+      new ResizeObserver(updateNavigation).observe(track);
+      updateNavigation();
+    })();
+  </script>
 
   <script>
     const DURATION = 10000;
