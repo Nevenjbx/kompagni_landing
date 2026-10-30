@@ -384,106 +384,11 @@
 
     /* ---- Moteur Kairos ---- */
 
-    .kairos { padding: 32px 0; }
+    .kairos { padding: 28px 0; }
     .kairos h2 { color: var(--deep); font-size: 1.4rem; }
-    .kairos .section-lead { max-width: 830px; }
-    .kairos-demo {
-      margin-top: 20px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .kairos-example {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding: 16px 20px;
-      background: #eef6ee;
-      color: var(--deep);
-      font-size: 0.85rem;
-    }
-    .kairos-example strong { display: block; }
-    .kairos-example small { color: var(--muted); font-size: 0.75rem; }
-    .kairos-example label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .kairos-example input { width: 18px; height: 18px; margin: 0; accent-color: var(--deep); }
-    .kairos-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--border); }
-    .kairos-tabs button {
-      position: relative;
-      padding: 14px 8px;
-      border: 0;
-      border-bottom: 2px solid transparent;
-      background: transparent;
-      color: var(--muted);
-      font: 500 0.85rem 'Inter', sans-serif;
-      cursor: pointer;
-    }
-    .kairos-tabs button + button { border-left: 1px solid var(--border); }
-    .kairos-tabs button[aria-selected="true"] { background: #f6faf4; color: var(--deep); border-bottom-color: var(--deep); }
-    .kairos-tabs button span { font-size: 0.72rem; margin-right: 6px; opacity: 0.7; }
-    .kairos-tabs button:focus-visible,
-    .kairos-example input:focus-visible { outline: 2px solid var(--deep); outline-offset: -3px; }
-    .kairos-panel { padding: 20px; }
-    .kairos-panel[hidden] { display: none; }
-    .kairos-panel h3 { font-size: 1.15rem; color: var(--deep); margin-bottom: 8px; }
-    .kairos-explain { margin: 0 0 16px; color: var(--muted); font-size: 0.88rem; }
-    .kairos-equation { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 10px; }
-    .kairos-value { padding: 16px 8px; border-radius: 10px; background: #f3f6f1; text-align: center; }
-    .kairos-value strong { display: block; color: var(--deep); font-size: 1.35rem; font-weight: 600; }
-    .kairos-value small { display: block; margin-top: 4px; color: var(--muted); font-size: 0.76rem; }
-    .kairos-value.is-total { background: var(--deep); }
-    .kairos-value.is-total strong { color: var(--fluo); }
-    .kairos-value.is-total small { color: #dfebdf; }
-    .kairos-operator { color: var(--deep); font-size: 1.2rem; }
-    .kairos-caption { margin: 14px 0 0; color: var(--muted); font-size: 0.8rem; }
-    .kairos-caption strong { color: var(--deep); }
-    .kairos-staff { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .kairos-person { padding: 14px; border: 1px solid var(--border); border-radius: 10px; }
-    .kairos-person h4 { margin: 0 0 10px; color: var(--deep); font-size: 0.9rem; font-weight: 600; }
-    .kairos-person p { margin: 5px 0; font-size: 0.83rem; color: var(--muted); }
-    .kairos-person strong { color: var(--deep); font-weight: 600; }
-    .kairos-candidates { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-    .kairos-candidates li { display: grid; grid-template-columns: 55px 1fr; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; }
-    .kairos-candidates time { color: var(--deep); font-size: 0.88rem; font-weight: 600; }
-    .kairos-candidates p { margin: 0; font-size: 0.81rem; color: var(--muted); }
-    .kairos-candidates strong { color: var(--deep); font-weight: 600; }
-    .kairos-candidates li.is-available { background: #eef6ee; border-color: #9bb99e; }
-    .kairos-proposal { margin: 12px 0 0; padding: 12px; border-radius: 8px; background: var(--deep); color: #fff; font-size: 0.85rem; }
-    .kairos-proposal strong { color: var(--fluo); font-weight: 600; }
-    .kairos-how { border-top: 1px solid var(--border); padding: 12px 20px; font-size: 0.8rem; color: var(--muted); }
-    .kairos-how summary { color: var(--deep); cursor: pointer; }
-    .kairos-how p { margin: 12px 0 0; }
-    .kairos-how code { font-size: 0.78rem; overflow-wrap: anywhere; }
-    .kairos-evolution {
-      margin-top: 16px;
-      padding: 16px 18px;
-      border-left: 3px solid #9bb99e;
-      border-radius: 0 10px 10px 0;
-      background: #eef6ee;
-    }
-    .kairos-evolution h3 { color: var(--deep); font-size: 1rem; margin-bottom: 8px; }
-    .kairos-evolution p { margin: 0; color: var(--muted); font-size: 0.85rem; }
-    .kairos-evolution strong { color: var(--deep); font-weight: 600; }
-
-    .kairos-sr {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
-    }
-    @media (max-width: 560px) {
-      .kairos-example, .kairos-panel { padding: 16px; }
-      .kairos-example { align-items: flex-start; }
-      .kairos-tabs button { font-size: 0.8rem; }
-      .kairos-tabs button span { display: block; margin: 0 0 2px; }
-      .kairos-equation { gap: 6px; }
-      .kairos-value { padding: 12px 4px; }
-      .kairos-value strong { font-size: 1.1rem; }
-      .kairos-value small { font-size: 0.72rem; }
-      .kairos-person { padding: 10px; }
-      .kairos-person p { font-size: 0.78rem; }
-      .kairos-how { padding: 12px 16px; }
-    }
+    .kairos .section-lead { max-width: none; }
+    .kairos-future { margin: 12px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .kairos-future strong { color: var(--deep); font-weight: 600; }
 
     /* ---- Lecteur vidéo ---- */
 
@@ -975,99 +880,12 @@
 
     <section class="kairos" id="kairos" aria-labelledby="kairos-title">
       <h2 id="kairos-title">Kairos Engine</h2>
-      <p class="section-lead">Kairos transforme une demande de toilettage en un devis et des créneaux réalisables.
-        Il calcule le temps nécessaire pour chaque professionnel, puis vérifie qu'une personne et une table
-        restent disponibles assez longtemps pour réaliser la prestation.</p>
-
-      <div class="kairos-demo">
-        <div class="kairos-example">
-          <div><strong>Luna, 12 kg · bain + coupe</strong><small>Exemple illustratif · règles et montants fictifs</small></div>
-          <label><input id="kairos-coat" type="checkbox" checked> Pelage avec nœuds (+15 min)</label>
-        </div>
-        <div class="kairos-tabs" role="tablist" aria-label="Les décisions de Kairos">
-          <button type="button" id="kairos-tab-1" role="tab" aria-selected="true" aria-controls="kairos-step-1" tabindex="0">
-            <span>01 →</span>Estimer</button>
-          <button type="button" id="kairos-tab-2" role="tab" aria-selected="false" aria-controls="kairos-step-2" tabindex="-1">
-            <span>02 →</span>Adapter</button>
-          <button type="button" id="kairos-tab-3" role="tab" aria-selected="false" aria-controls="kairos-step-3" tabindex="-1">
-            <span>03</span>Vérifier</button>
-        </div>
-
-        <div class="kairos-panel" id="kairos-step-1" role="tabpanel" aria-labelledby="kairos-tab-1" tabindex="0">
-          <h3>Combien de temps demande ce toilettage ?</h3>
-          <p class="kairos-explain">Le moteur part de la prestation et du poids de Luna, puis applique les règles
-            du salon au profil de l'animal. Essayez de retirer les nœuds.</p>
-          <div class="kairos-equation" aria-label="Calcul de la durée de référence">
-            <div class="kairos-value"><strong>60 min</strong><small>Prestation</small></div>
-            <span class="kairos-operator" aria-hidden="true">+</span>
-            <div class="kairos-value"><strong><span data-kairos-value="extra">15</span> min</strong><small>Pelage</small></div>
-            <span class="kairos-operator" aria-hidden="true">=</span>
-            <div class="kairos-value is-total"><strong><span data-kairos-value="reference">75</span> min</strong><small>Durée de référence</small></div>
-          </div>
-          <p class="kairos-caption">Règle de prix de cet exemple : 45 € pour 60 min, puis 1 € par minute supplémentaire.
-            <strong>Devis : <span data-kairos-value="price">60</span> €.</strong></p>
-        </div>
-
-        <div class="kairos-panel" id="kairos-step-2" role="tabpanel" aria-labelledby="kairos-tab-2" tabindex="0" hidden>
-          <h3>Combien de temps réserver dans le salon ?</h3>
-          <p class="kairos-explain">Ici, Bruno a besoin de 20 % de temps en plus qu'Alice pour la même prestation.
-            Kairos calcule aussi l'occupation de la table, avec une marge et un temps de transition.</p>
-          <div class="kairos-staff">
-            <div class="kairos-person">
-              <h4>Alice · durée ×1</h4>
-              <p>Travail : <strong><span data-kairos-value="alice">75</span> min</strong></p>
-              <p>Table réservée : <strong><span data-kairos-value="aliceTable">98</span> min</strong></p>
-            </div>
-            <div class="kairos-person">
-              <h4>Bruno · durée ×1,2</h4>
-              <p>Travail : <strong><span data-kairos-value="bruno">90</span> min</strong></p>
-              <p>Table réservée : <strong><span data-kairos-value="brunoTable">114</span> min</strong></p>
-            </div>
-          </div>
-          <p class="kairos-caption">Ici, l'occupation de table comprend le temps de travail majoré de 10 % et arrondi,
-            puis 15 min de transition. <strong>Le devis reste de <span data-kairos-value="price">60</span> € pour les deux.</strong></p>
-        </div>
-
-        <div class="kairos-panel" id="kairos-step-3" role="tabpanel" aria-labelledby="kairos-tab-3" tabindex="0" hidden>
-          <h3>Quels horaires sont vraiment possibles ?</h3>
-          <p class="kairos-explain">Chaque horaire est testé contre les rendez-vous, les pauses, les blocages et
-            les tables disponibles. Toutes les durées doivent tenir dans le planning.</p>
-          <ul class="kairos-candidates" role="list" aria-label="Horaires testés dans cet exemple">
-            <li id="kairos-nine"><time datetime="09:00">9 h</time><p><strong data-kairos-value="nineStatus">Écarté</strong>
-              · Alice est libre, mais la table n'a que 90 min disponibles.
-              <span data-kairos-value="nineReason">Il en faut 98.</span></p></li>
-            <li><time datetime="09:30">9 h 30</time><p><strong>Écarté</strong> · Bruno est déjà occupé.</p></li>
-            <li class="is-available"><time datetime="11:00">11 h</time><p><strong>Retenu</strong> · Alice et la table sont libres
-              120 min : les <span data-kairos-value="aliceTable">98</span> min nécessaires tiennent.</p></li>
-          </ul>
-          <p class="kairos-proposal">Premier créneau proposé : <strong><span data-kairos-value="first">11 h</span>, avec Alice</strong>
-            · <span data-kairos-value="alice">75</span> min de travail · <span data-kairos-value="price">60</span> €.</p>
-        </div>
-
-        <details class="kairos-how">
-          <summary>Voir les règles de calcul et la confirmation</summary>
-          <p><code>Durée de référence = base + effets des règles du salon</code><br>
-            <code>Durée de travail = arrondi(durée de référence × coefficient du professionnel)</code><br>
-            <code>Occupation de table = arrondi(durée de travail × 1,10) + 15 min</code><br>
-            <code>Prix = 45 € + max(0, durée de référence − 60 min) × 1 €/min</code></p>
-          <p>Les valeurs de cet exemple sont choisies pour illustrer le calcul. Les règles, marges et temps de
-            transition sont configurables dans le salon. Le moteur calcule également un niveau de difficulté
-            pour tenir compte des limites définies pour chaque membre de l'équipe.</p>
-          <p>À la réservation, un verrou temporaire de cinq minutes est posé sur le créneau choisi.
-            Le devis est recalculé côté serveur à la confirmation.</p>
-        </details>
-        <p class="kairos-sr" id="kairos-feedback" role="status" aria-live="polite"></p>
-      </div>
-
-      <aside class="kairos-evolution" aria-labelledby="kairos-evolution-title">
-        <h3 id="kairos-evolution-title">Piste d'évolution : apprendre des durées réelles</h3>
-        <p>En collectant les temps réellement passés, Kairos pourrait affiner ses estimations par prestation et
-          professionnel. Une <strong>estimation bayésienne</strong> combinerait une référence métier avec l'historique
-          observé, en donnant moins de poids aux petits échantillons. Avec suffisamment de données fiables, un modèle
-          de régression en <strong>machine learning</strong> pourrait aussi exploiter le profil de l'animal et le contexte
-          du rendez-vous. Le gain resterait à vérifier sur des rendez-vous non utilisés pour l'apprentissage.</p>
-      </aside>
-
+      <p class="section-lead">Kairos calcule la difficulté, le prix et la durée d'un toilettage selon l'animal,
+        la prestation et les règles du salon. Il adapte le temps à chaque professionnel, prévoit l'occupation
+        des tables avec les marges nécessaires, puis vérifie le planning et les disponibilités de l'équipe
+        pour proposer des créneaux réalisables.</p>
+      <p class="kairos-future"><strong>Piste d'évolution :</strong> affiner les durées à partir des temps réellement
+        observés, par estimation bayésienne ou régression en machine learning.</p>
     </section>
 
     <section>
@@ -1106,67 +924,6 @@
       rel="noopener">github.com/Nevenjbx</a> — <a href="mailto:neven.joubioux@gmail.com">neven.joubioux@gmail.com</a>
   </footer>
 
-  <script>
-    (function () {
-      const root = document.getElementById('kairos');
-      const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
-      const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
-      const coat = document.getElementById('kairos-coat');
-      const feedback = document.getElementById('kairos-feedback');
-
-      function selectStep(index) {
-        tabs.forEach(function (tab, i) {
-          tab.setAttribute('aria-selected', String(i === index));
-          tab.tabIndex = i === index ? 0 : -1;
-          panels[i].hidden = i !== index;
-        });
-      }
-      tabs.forEach(function (tab, index) {
-        tab.addEventListener('click', function () { selectStep(index); });
-        tab.addEventListener('keydown', function (event) {
-          let next = index;
-          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-          else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
-          else if (event.key === 'Home') next = 0;
-          else if (event.key === 'End') next = tabs.length - 1;
-          else return;
-          event.preventDefault();
-          selectStep(next);
-          tabs[next].focus();
-        });
-      });
-
-      function updateExample(announce) {
-        const extra = coat.checked ? 15 : 0;
-        const reference = 60 + extra;
-        const alice = Math.round(reference * 1);
-        const bruno = Math.round(reference * 1.2);
-        const aliceTable = Math.round(alice * 1.1) + 15;
-        const brunoTable = Math.round(bruno * 1.1) + 15;
-        const price = 45 + Math.max(0, reference - 60);
-        const fitsAtNine = aliceTable <= 90;
-        const values = {
-          extra, reference, alice, bruno, aliceTable, brunoTable, price,
-          nineStatus: fitsAtNine ? 'Retenu' : 'Écarté',
-          nineReason: fitsAtNine ? 'Les ' + aliceTable + ' min nécessaires tiennent.' : 'Il en faut ' + aliceTable + '.',
-          first: fitsAtNine ? '9 h' : '11 h'
-        };
-        root.querySelectorAll('[data-kairos-value]').forEach(function (node) {
-          node.textContent = values[node.dataset.kairosValue];
-        });
-        document.getElementById('kairos-nine').classList.toggle('is-available', fitsAtNine);
-        // La formulation de la disponibilité reste cohérente dans les deux cas.
-        const status = root.querySelector('[data-kairos-value="nineStatus"]');
-        status.nextSibling.textContent = fitsAtNine
-          ? ' · Alice est libre et la table a 90 min disponibles. '
-          : ' · Alice est libre, mais la table n\'a que 90 min disponibles. ';
-        if (announce) feedback.textContent = 'Exemple recalculé : ' + reference + ' min de référence, ' +
-          price + ' euros. Premier créneau : ' + values.first + ', avec Alice.';
-      }
-      coat.addEventListener('change', function () { updateExample(true); });
-      updateExample(false);
-    })();
-  </script>
 
   <script>
     const DURATION = 10000;
