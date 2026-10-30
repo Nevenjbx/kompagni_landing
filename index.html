@@ -407,18 +407,11 @@
       isolation: isolate;
       user-select: none;
       outline: none;
-      /* Évite le délai de ~300ms avant le click sur mobile Safari (qui attend
-         de voir si un second tap va suivre pour zoomer) et désactive le
-         double-tap-zoom natif, qui entrerait en conflit avec le dblclick
-         plein écran. */
+      /* Les taps restent réactifs sans empêcher le défilement de la page. */
       touch-action: manipulation;
     }
 
-    /* Le contour ne doit apparaître que pour un focus clavier (Tab) : sur
-       mobile, :focus-visible seul ne suffit pas, car player.focus() est aussi
-       appelé au tap (voir pointerdown plus bas) et certains navigateurs
-       tactiles le traitent comme "focus-visible" au même titre qu'un focus
-       clavier. La classe .kbd-focus, posée en JS, tranche explicitement. */
+    /* Le contour accompagne uniquement la navigation au clavier. */
     .player.kbd-focus {
       outline: 3px solid var(--fluo);
       outline-offset: 3px;
@@ -461,8 +454,9 @@
          ne viennent pas mordre la courbure. */
       padding: 44px 22px 14px;
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
     /* Le glissement porte sur le contenu, jamais sur .player-controls : un
@@ -526,6 +520,7 @@
 
     .player.show-ui .player-controls {
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
     }
 
@@ -605,6 +600,8 @@
       background: transparent;
       color: #fff;
       padding: 5px;
+      min-width: 44px;
+      min-height: 44px;
       border-radius: 8px;
       line-height: 0;
       display: grid;
@@ -645,23 +642,30 @@
     }
 
     .volume {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
     .volume input {
-      width: 0;
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      width: 84px;
+      margin: 0;
       opacity: 0;
-      height: 4px;
+      pointer-events: none;
+      height: 24px;
       accent-color: var(--fluo);
-      transition: width 0.22s ease, opacity 0.22s ease;
+      transition: opacity 0.22s ease;
     }
 
     .volume:hover input,
+    .volume:focus-within input,
     .volume input:focus-visible {
-      width: 74px;
       opacity: 1;
+      pointer-events: auto;
     }
 
     .player:fullscreen {
@@ -690,7 +694,15 @@
       }
 
       .player-bar {
-        gap: 4px;
+        gap: 2px;
+      }
+
+      .pbtn {
+        min-width: 40px;
+      }
+
+      .ptime {
+        font-size: 0.68rem;
       }
 
       .volume input {
@@ -834,8 +846,8 @@
           Votre navigateur ne prend pas en charge la lecture vidéo HTML5.
         </video>
 
-        <div class="player-controls">
-          <div class="progress" data-role="progress" role="slider" tabindex="-1" aria-label="Progression de la vidéo"
+        <div class="player-controls" inert aria-hidden="true">
+          <div class="progress" data-role="progress" role="slider" tabindex="0" aria-label="Progression de la vidéo"
             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <div class="progress-rail">
               <div class="progress-buffered" data-role="buffered"></div>
@@ -1013,6 +1025,7 @@
 
       const el = r => player.querySelector('[data-role="' + r + '"]');
       const video = player.querySelector('video');
+      const controls = player.querySelector('.player-controls');
       const playBtn = el('play');
       const muteBtn = el('mute');
       const speedBtn = el('speed');
@@ -1030,7 +1043,9 @@
       let dragging = false;
       let hideTimer = null;
       let raf = null;
-      let clickTimer = null;
+      let pointerType = 'mouse';
+      let inView = false;
+      let focusFromKeyboard = false;
       // Mis à vrai dès que le visiteur mets lui-même la vidéo en pause : la
       // lecture au défilement ne doit pas passer outre sa décision.
       let userPaused = false;
@@ -1062,30 +1077,43 @@
           buffered.style.width = Math.min(100, (end / d) * 100) + '%';
         }
         timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
-        raf = video.paused ? null : requestAnimationFrame(render);
       }
 
       function loop() {
         cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(render);
+        render();
+        raf = video.paused ? null : requestAnimationFrame(loop);
+      }
+
+      function hideUI() {
+        clearTimeout(hideTimer);
+        if (dragging || (focusFromKeyboard && player.contains(document.activeElement))) return;
+        player.classList.remove('show-ui');
+        controls.inert = true;
+        controls.setAttribute('aria-hidden', 'true');
+        player.classList.toggle('hide-cursor', pointerType === 'mouse');
       }
 
       function showUI() {
         player.classList.add('show-ui');
         player.classList.remove('hide-cursor');
+        controls.inert = false;
+        controls.setAttribute('aria-hidden', 'false');
         clearTimeout(hideTimer);
-        if (!video.paused) {
-          hideTimer = setTimeout(function () {
-            player.classList.remove('show-ui');
-            player.classList.add('hide-cursor');
-          }, 2400);
-        }
+        hideTimer = setTimeout(hideUI, 2400);
+      }
+
+      function playVideo() {
+        const attempt = video.play();
+        // Certains modes d'économie d'énergie bloquent même l'autoplay muet.
+        // Le premier tap permettra de réessayer sans laisser un cadre vide.
+        if (attempt) attempt.catch(function () { player.classList.add('is-ready'); });
       }
 
       function toggle() {
         if (video.paused) {
           userPaused = false;
-          video.play();
+          playVideo();
         } else {
           userPaused = true;
           video.pause();
@@ -1107,7 +1135,6 @@
         playBtn.innerHTML = ICON.pause;
         playBtn.setAttribute('aria-label', 'Pause');
         loop();
-        showUI();
       });
 
       video.addEventListener('pause', function () {
@@ -1116,11 +1143,13 @@
         cancelAnimationFrame(raf);
         raf = null;
         render();
-        showUI();
       });
 
       // Première image réellement affichée : on révèle la vidéo.
       video.addEventListener('playing', function () {
+        player.classList.add('is-ready');
+      });
+      video.addEventListener('loadeddata', function () {
         player.classList.add('is-ready');
       });
 
@@ -1130,14 +1159,16 @@
 
       playBtn.addEventListener('click', toggle);
 
-      video.addEventListener('click', function () {
-        clearTimeout(clickTimer);
-        clickTimer = setTimeout(toggle, 200);
-      });
-
-      video.addEventListener('dblclick', function () {
-        clearTimeout(clickTimer);
-        toggleFullscreen();
+      // Un tap révèle les commandes sans mettre la vidéo en pause.
+      // Écouter click plutôt que pointerdown évite de réagir au défilement.
+      player.addEventListener('click', function (e) {
+        if (controls.contains(e.target)) {
+          showUI();
+          return;
+        }
+        showUI();
+        if (pointerType === 'mouse') toggle();
+        else if (video.paused && !userPaused) playVideo();
       });
 
       /* --- barre de progression --- */
@@ -1149,7 +1180,9 @@
       }
 
       progress.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
         dragging = true;
+        showUI();
         progress.classList.add('is-dragging');
         progress.setPointerCapture(e.pointerId);
         seekFrom(e);
@@ -1162,9 +1195,21 @@
       function endDrag() {
         dragging = false;
         progress.classList.remove('is-dragging');
+        showUI();
       }
       progress.addEventListener('pointerup', endDrag);
       progress.addEventListener('pointercancel', endDrag);
+      progress.addEventListener('keydown', function (e) {
+        if (!Number.isFinite(video.duration)) return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          video.currentTime = Math.max(0, Math.min(video.duration,
+            video.currentTime + (e.key === 'ArrowRight' ? 5 : -5)));
+        } else if (e.key === 'Home' || e.key === 'End') {
+          e.preventDefault();
+          video.currentTime = e.key === 'Home' ? 0 : video.duration;
+        }
+      });
 
       /* --- volume --- */
       volRange.addEventListener('input', function () {
@@ -1201,24 +1246,30 @@
       });
 
       /* --- affichage des contrôles --- */
-      let focusFromKeyboard = false;
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Tab') focusFromKeyboard = true;
       });
 
-      player.addEventListener('pointermove', showUI);
-      player.addEventListener('pointerdown', function () {
+      function revealOnHover(e) {
+        pointerType = e.pointerType;
+        if (e.pointerType === 'mouse' || e.pointerType === 'pen') showUI();
+      }
+      player.addEventListener('pointerenter', revealOnHover);
+      player.addEventListener('pointermove', revealOnHover);
+      player.addEventListener('pointerdown', function (e) {
+        pointerType = e.pointerType;
         focusFromKeyboard = false;
-        player.focus({ preventScroll: true });
-        showUI();
+        player.classList.remove('kbd-focus');
       });
-      player.addEventListener('pointerleave', function () {
-        if (!video.paused) {
-          clearTimeout(hideTimer);
-          player.classList.remove('show-ui');
-        }
+      player.addEventListener('pointerleave', function (e) {
+        if (e.pointerType !== 'touch') hideUI();
       });
-      player.addEventListener('focusin', showUI);
+      player.addEventListener('focusin', function () {
+        if (focusFromKeyboard) showUI();
+      });
+      player.addEventListener('focusout', function (e) {
+        if (!player.contains(e.relatedTarget)) hideUI();
+      });
       player.addEventListener('focus', function () {
         player.classList.toggle('kbd-focus', focusFromKeyboard);
       });
@@ -1271,6 +1322,15 @@
       });
 
       /* --- lecture automatique à l'entrée dans le champ de vision --- */
+      function syncPlayback() {
+        if (inView && !document.hidden) {
+          if (video.paused && !userPaused) playVideo();
+        } else {
+          video.pause();
+          hideUI();
+        }
+      }
+      document.addEventListener('visibilitychange', syncPlayback);
       if ('IntersectionObserver' in window) {
         // Préchargement anticipé, 600 px avant l'entrée dans le cadre : la
         // vidéo est déjà en tampon quand la lecture est déclenchée, ce qui
@@ -1286,19 +1346,8 @@
 
         new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              if (video.paused && !userPaused) {
-                const p = video.play();
-                // Si le navigateur refuse la lecture automatique, on révèle
-                // quand même la vidéo : sans ça elle resterait masquée sur un
-                // cadre vide. Les contrôles restent utilisables.
-                if (p) p.catch(function () { player.classList.add('is-ready'); });
-              }
-            } else if (!video.paused) {
-              video.pause();
-              // Une pause due au défilement n'est pas une décision du visiteur.
-              userPaused = false;
-            }
+            inView = entry.isIntersecting && entry.intersectionRatio >= 0.35;
+            syncPlayback();
           });
         }, { threshold: 0.35 }).observe(player);
       }
@@ -1306,7 +1355,6 @@
       // Le son est coupé au départ (condition de la lecture automatique) :
       // on synchronise l'icône et le curseur de volume avec cet état.
       video.dispatchEvent(new Event('volumechange'));
-      showUI();
       render();
     })();
   </script>
